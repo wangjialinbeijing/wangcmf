@@ -1,0 +1,35 @@
+{include file='basic:header'/}
+{include file='basic:menu'/}
+{include file='basic:nav'/}
+<!-- Content Wrapper. Contains page content -->
+<div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+        <h1>
+            {block name="page_header"}
+                Page Header
+            {/block}
+
+            <small>{block name="page_header_small"}Optional description {/block}</small>
+        </h1>
+        <ol class="breadcrumb">
+            {block name="nav_tips"}
+            <li><a href="#"><i class="fa fa-dashboard"></i> Level</a></li>
+            <li class="active">Here</li>
+            {/block}
+        </ol>
+    </section>
+
+    <!-- Main content -->
+    <section class="content container-fluid">
+
+        <!--------------------------
+          | Your Page Content Here |
+          -------------------------->
+
+        {block name="content"}{/block}
+    </section>
+    <!-- /.content -->
+</div>
+<!-- /.content-wrapper -->
+{include file='basic:footer'/}
