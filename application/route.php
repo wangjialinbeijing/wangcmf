@@ -18,4 +18,6 @@ return [
         ':name' => ['index/hello', ['method' => 'post']],
     ],
 
+	// 接口版本定义
+	':version/user/:user_id' => 'api/:version.User/info',
 ];
