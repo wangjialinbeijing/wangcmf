@@ -1,1 +1,4 @@
 /runtime
+/.idea/*.xml
+/.idea/*.iml
+/application/api/controller/*.php
