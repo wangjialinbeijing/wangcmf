@@ -1,0 +1,44 @@
+{extend name="basic:layout"}
+{block name="content"}
+<section class="content">
+    <div class="error-page">
+        <h2 class="headline text-yellow"> 错误</h2>
+
+        <div class="error-content">
+            <h3><i class="fa fa-warning text-yellow"></i><?php echo(strip_tags($msg));?></h3>
+            <p>
+                页面自动<a id="href" href="<?php echo($url);?>">跳转</a>等待时间： <b id="wait"><?php echo($wait);?></b>
+            </p>
+
+            <form class="search-form">
+                <div class="input-group">
+                    <input type="text" name="search" class="form-control" placeholder="搜索">
+                    <div class="input-group-btn">
+                        <button type="submit" name="submit" class="btn btn-warning btn-flat"><i class="fa fa-search"></i>
+                        </button>
+                    </div>
+                </div>
+                <!-- /.input-group -->
+            </form>
+        </div>
+        <!-- /.error-content -->
+    </div>
+    <!-- /.error-page -->
+
+</section>
+{/block}
+{block name='script'}
+<script type="text/javascript">
+    (function(){
+        var wait = document.getElementById('wait'),
+            href = document.getElementById('href').href;
+        var interval = setInterval(function(){
+            var time = --wait.innerHTML;
+            if(time <= 0) {
+                location.href = href;
+                clearInterval(interval);
+            };
+        }, 1000);
+    })();
+</script>
+{/block}

@@ -10,3 +10,34 @@
 // +----------------------------------------------------------------------
 
 // 应用公共文件
+if(!function_exists('is_login'))
+{
+	// 检测用户是否已经登录
+	function is_login(){
+		$user = session('user_auth');
+		if (empty($user)) {
+			return 0;
+		} else {
+			// 检测当前登录用户
+			return session('user_auth_sign') == data_auth_sign($user) ? $user['user_id'] : 0;
+		}
+		return $user;
+	}
+}
+
+// 系统加密
+function sys_md5($string)
+{
+	return md5(md5($string));
+}
+
+function data_auth_sign($data) {
+	//数据类型检测
+	if(!is_array($data)){
+		$data = (array)$data;
+	}
+	ksort($data); //排序
+	$code = http_build_query($data); //url编码并生成query字符串
+	$sign = sha1($code); //生成签名
+	return $sign;
+}

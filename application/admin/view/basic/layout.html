@@ -7,15 +7,13 @@
     <section class="content-header">
         <h1>
             {block name="page_header"}
-                Page Header
             {/block}
-
-            <small>{block name="page_header_small"}Optional description {/block}</small>
+            <small>{block name="page_header_small"}{/block}</small>
         </h1>
         <ol class="breadcrumb">
             {block name="nav_tips"}
-            <li><a href="#"><i class="fa fa-dashboard"></i> Level</a></li>
-            <li class="active">Here</li>
+            <!--<li><a href="#"><i class="fa fa-dashboard"></i> Level</a></li>-->
+            <!--<li class="active">Here</li>-->
             {/block}
         </ol>
     </section>
@@ -33,3 +31,6 @@
 </div>
 <!-- /.content-wrapper -->
 {include file='basic:footer'/}
+{block name='script'}{/block}
+</body>
+</html>
