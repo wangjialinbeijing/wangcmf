@@ -19,5 +19,5 @@ return [
     ],
 
 	// 接口版本定义
-	':version/user/:user_id' => 'api/:version.User/info',
+//	':version/user/:user_id' => 'api/:version.User/info',
 ];
