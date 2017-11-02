@@ -1,4 +1,5 @@
 <?php
+use think\Db;
 // +----------------------------------------------------------------------
 // | ThinkPHP [ WE CAN DO IT JUST THINK ]
 // +----------------------------------------------------------------------
@@ -25,19 +26,29 @@ if(!function_exists('is_login'))
 	}
 }
 
-// 系统加密
-function sys_md5($string)
+if(!function_exists('sys_md5'))
 {
-	return md5(md5($string));
+	// 系统加密
+	function sys_md5($string)
+	{
+		return md5(md5($string));
+	}
 }
 
-function data_auth_sign($data) {
-	//数据类型检测
-	if(!is_array($data)){
-		$data = (array)$data;
+if(!function_exists('data_auth_sign'))
+{
+	// 生成签名
+	function data_auth_sign($data)
+	{
+		//数据类型检测
+		if (!is_array($data)) {
+			$data = (array)$data;
+		}
+		ksort($data); //排序
+		$code = http_build_query($data); //url编码并生成query字符串
+		$sign = sha1($code); //生成签名
+		return $sign;
 	}
-	ksort($data); //排序
-	$code = http_build_query($data); //url编码并生成query字符串
-	$sign = sha1($code); //生成签名
-	return $sign;
 }
+
+
