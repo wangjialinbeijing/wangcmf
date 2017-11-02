@@ -1,4 +1,4 @@
-#WANGCMF
+# WANGCMF
 
 ## 简介
 WANGCMF是一个基于ThinkPHP5开发的CMS(内容开发框架)，集成了一个常见的用户后台。其中包含以下功能：
