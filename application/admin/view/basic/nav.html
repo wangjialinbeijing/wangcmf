@@ -11,13 +11,14 @@
                 <li class="active">
                     <a href="#">
                         <i class="fa fa-link"></i>
-                        <span>{$key}</span>
+                        <span>{$key}</span><!--数据库group字段名-->
                     </a>
                 </li>
                 <li class="treeview menu-open">
                     <ul class="treeview-menu" style="display: block">
-                        <li><a href="#">菜单1</a></li>
-                        <li class="active"><a href="/admin">菜单2</a></li>
+                        {volist name="sub_menu" id="menu"}
+                            <li class="{if condition='$active_url eq $menu["url"]'}active{/if}"><a href="{:url($menu.url)}">{$menu.title}</a></li>
+                        {/volist}
                     </ul>
                 </li>
             {/volist}
