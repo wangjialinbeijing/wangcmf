@@ -36,6 +36,7 @@ class Admin extends Controller
 		define('CONTROLLER_NAME' , request()->controller());
 		define('ACTION_NAME' , request()->action());
 
+		// 菜单变量置换到模板中
 	    $this->assign('menu_list' , $this->getMenus());
     }
 
@@ -43,7 +44,7 @@ class Admin extends Controller
 	 * 获取控制器菜单数组,二级菜单元素位于一级菜单的'_child'元素中
 	 */
 	final public function getMenus($controller=CONTROLLER_NAME){
-//		$menus  =   session('ADMIN_MENU_LIST.'.$controller);
+		$menus  =   session('ADMIN_MENU_LIST.'.$controller);
 		if(empty($menus)){
 			// 获取主菜单
 			$where['pid']   =   0;
@@ -73,7 +74,7 @@ class Admin extends Controller
 				foreach ($menus['main'] as $key => $item) {
 					// 获取当前主菜单的子菜单项
 					if($item['id'] == $nav['id']){
-						$menus['main'][$key]['class']='current';
+						$menus['main'][$key]['class']='active';
 						//生成child树
 						$groups_list = Db::name('menu')
 							->field('group')

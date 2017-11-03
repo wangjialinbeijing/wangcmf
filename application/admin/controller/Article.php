@@ -12,6 +12,6 @@ class Article extends Admin
 {
 	public function index()
 	{
-		echo date('YmdHis');
+		return $this->fetch();
 	}
 }

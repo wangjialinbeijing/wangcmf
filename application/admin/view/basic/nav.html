@@ -6,26 +6,21 @@
         <!-- 左侧菜单组 -->
         <ul class="sidebar-menu" data-widget="tree">
             <li class="header">导航</li>
-            <!-- Optionally, you can add icons to the links -->
-            <li class="active">
-                <a href="#">
-                    <i class="fa fa-link"></i>
-                    <span>Link</span>
-                </a>
-            </li>
-            <li class="treeview menu-open">
-                <a href="#">
-                    <i class="fa fa-link"></i>
-                    <span>Multilevel</span>
-                    <span class="pull-right-container">
-                        <i class="fa fa-angle-left pull-right"></i>
-                    </span>
-                </a>
-                <ul class="treeview-menu" style="display: block">
-                    <li><a href="#">菜单1</a></li>
-                    <li class="active"><a href="/admin">菜单2</a></li>
-                </ul>
-            </li>
+            {volist name="menu_list.child" id="sub_menu"}
+                <!-- Optionally, you can add icons to the links -->
+                <li class="active">
+                    <a href="#">
+                        <i class="fa fa-link"></i>
+                        <span>{$key}</span>
+                    </a>
+                </li>
+                <li class="treeview menu-open">
+                    <ul class="treeview-menu" style="display: block">
+                        <li><a href="#">菜单1</a></li>
+                        <li class="active"><a href="/admin">菜单2</a></li>
+                    </ul>
+                </li>
+            {/volist}
         </ul>
         <!-- 左侧菜单组 -->
     </section>
