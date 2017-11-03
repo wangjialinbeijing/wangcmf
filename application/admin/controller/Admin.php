@@ -57,7 +57,7 @@ class Admin extends Controller
 //					continue;//继续循环
 //				}
 				if(strtolower(CONTROLLER_NAME.'/'.ACTION_NAME)  == strtolower($item['url'])){
-					$menus['main'][$key]['class']='current';
+					$menus['main'][$key]['class']='active';
 				}
 			}
 
