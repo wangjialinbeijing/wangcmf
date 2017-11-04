@@ -105,3 +105,8 @@ if(!function_exists('show_menu_active'))
 		return $active;
 	}
 }
+
+function is_admin($uid = null){
+	$uid = is_null($uid) ? is_login() : $uid;
+	return $uid && (intval($uid) === config('USER_ADMIN'));
+}
