@@ -1,10 +1,84 @@
 {extend name="basic:layout"}
 {block name="page_header"}
-标题
+配置列表
 {/block}
 {block name="page_header_small"}
-副标题
+全部
 {/block}
 {block name="content"}
-121212121
+<!--表格开始-->
+<!-- left column -->
+<div class="row"><!--使用bootstrap的全局样式row-->
+    <div class="col-md-12"><!--使用bootstrap的全局样式col 控制box的宽度-->
+        <!-- general form elements -->
+        <div class="box">
+            <div class="box-header">
+                <h3 class="box-title">配置列表</h3>
+            </div>
+            <!-- /.box-header -->
+            <div class="box-body">
+
+                <table id="example1" class="table table-bordered table-striped">
+                    <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>配置</th>
+                        <th>值</th>
+                        <th>创建时间</th>
+                        <th>状态</th>
+                        <th>操作</th>
+                    </tr>
+                    </thead>
+                    <tbody class="">
+                    {notempty name="_list"}
+
+                        {else /}
+                        <tr>
+                            <td>12</td>
+                            <td>2017111212121212
+                            </td>
+                            <td>￥123.45元</td>
+                            <td>2017-12-12 12:12</td>
+                            <td><span class="label label-success">正常</span></td>
+                            <td>
+                                <a>编辑</a>
+                                <a class="ajax-get confirm" href="javascript:;" url="{:url('del',['id'=>1,'status'=>-1])}">删除</a>
+                            </td>
+                        </tr>
+                        <tr><td colspan="6" class="text-center">暂无数据</td></tr>
+                    {/notempty}
+                    </tbody>
+                    <tfoot>
+                    </tfoot>
+                </table>
+                <div class="row">
+                    <div class="col-md-6"></div>
+                    <div class="col-md-6" style="text-align: right;">
+                        <nav aria-label="Page navigation" class="">
+                            <ul class="pagination">
+                                <li>
+                                    <a href="#" aria-label="Previous">
+                                        <span aria-hidden="true">上一页</span>
+                                    </a>
+                                </li>
+                                <li class="active"><a href="#">1</a></li>
+                                <li><a href="#">2</a></li>
+                                <li><a href="#">3</a></li>
+                                <li><a href="#">4</a></li>
+                                <li><a href="#">5</a></li>
+                                <li>
+                                    <a href="#" aria-label="Next">
+                                        <span aria-hidden="true">下一页</span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+            <!-- /.box-body -->
+        </div>
+        <!-- /.box -->
+    </div>
+</div>
 {/block}

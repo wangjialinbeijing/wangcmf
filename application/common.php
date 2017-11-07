@@ -106,7 +106,16 @@ if(!function_exists('show_menu_active'))
 	}
 }
 
-function is_admin($uid = null){
-	$uid = is_null($uid) ? is_login() : $uid;
-	return $uid && (intval($uid) === config('USER_ADMIN'));
+if(!function_exists('is_admin'))
+{
+	/**
+	 * 判断当前用户是否是超级管理员
+	 * @param null $uid
+	 * @return bool
+	 */
+	function is_admin($uid = null)
+	{
+		$uid = is_null($uid) ? is_login() : $uid;
+		return $uid && (intval($uid) === intval(config('USER_ADMIN')));
+	}
 }

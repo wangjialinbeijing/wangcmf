@@ -2,6 +2,7 @@
 namespace app\admin\controller;
 
 use app\common\controller\Config;
+use Auth\Auth;
 use think\Controller;
 use think\Db;
 
@@ -28,18 +29,37 @@ class Admin extends Controller
 	    	$config = Config::lists();
 	    	cache('DB_CONFIG_DATA' , $config);
 	    }
-		// 数据库配置合并到系统配置文件
+		// 数据库配置合并到系统配置
 	    config($config);
 
-	    // 定义常量获取模块控制器和方法名
+	    // 定义常量获取模块、控制器和方法名
 	    define('MODULE_NAME' , request()->module());
 		define('CONTROLLER_NAME' , request()->controller());
 		define('ACTION_NAME' , request()->action());
+	    // 当前项目地址
+	    define('__APP__',strip_tags(rtrim($_SERVER['SCRIPT_NAME'],'/')));
+	    // 当前请求是否AJAX
+	    define('IS_AJAX' , request()->isAjax());
 
 		// 菜单变量置换到模板中
 	    $this->assign('menu_list' , $this->getMenus());
 	    // 当前选中的控制器/方法
 	    $this->assign('active_url' , CONTROLLER_NAME.'/'.ACTION_NAME);
+
+	    // 是否是超级管理员
+	    define('IS_ROOT',  is_admin());
+
+	    // 权限判断
+	    if(!IS_ROOT) //
+	    {
+	    	// 获取当前访问的控制器/方法地址
+		    $rule  = strtolower(MODULE_NAME.'/'.CONTROLLER_NAME.'/'.ACTION_NAME);
+		    $auth = new Auth();
+		    if(!$auth->check($rule,USER_ID,[1,2]))
+		    {
+				$this->error('未授权访问');
+		    }
+	    }
     }
 
 	/**
@@ -134,5 +154,37 @@ class Admin extends Controller
 			session('ADMIN_MENU_LIST.'.$controller,$menus);
 		}
 		return $menus;
+	}
+
+	protected function setStatus($model = null)
+	{
+		if($model !== null)
+		{
+			$id = input('id');
+			$status = input('status');
+
+			if($id !== null && $status !== null)
+			{
+				$map = [];
+				$map['id'] = $id;
+				$data['status'] = $status;
+				$data['update_time'] = time();
+				$model->where($map)->update($data);
+
+				switch ($status)
+				{
+					case -1 :
+						$this->success('删除成功！');
+						break;
+					case 1 :
+						$this->success('启用成功！');
+						break;
+					case 0 :
+						$this->success('禁用成功！');
+						break;
+				}
+			}
+		}
+		$this->error('参数错误！');
 	}
 }
