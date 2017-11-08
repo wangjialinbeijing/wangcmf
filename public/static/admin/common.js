@@ -1,4 +1,3 @@
-
 function showAlertInfo(msg)
 {
     if(msg)
@@ -45,4 +44,3 @@ $(function(){
         return false;
     });
 });
-
