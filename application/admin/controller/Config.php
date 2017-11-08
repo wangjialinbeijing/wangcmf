@@ -16,7 +16,7 @@ class Config extends Admin
 	{
 		$map = [];
 		$map['status'] = ['egt' , 0];
-		$list = Db::name('config')->where($map)->order('create_time desc')->paginate(1);
+		$list = Db::name('config')->where($map)->order('create_time desc')->paginate(10);
 		if($list)
 		{
 			$this->assign('_list' , $list);

@@ -29,14 +29,14 @@ $(function(){
                         }else{
                             window.location.reload();
                         }
-                    },1500);
+                    },1000);
                 }else{
                     $('#showErrorTips').show().find('p').text(data.msg);
                     setTimeout(function(){
                         if (data.url) {
                             window.location.href=data.url;
                         }
-                    },1500);
+                    },1000);
                 }
             })
 
