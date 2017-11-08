@@ -17,7 +17,6 @@
             </div>
             <!-- /.box-header -->
             <div class="box-body">
-
                 <table id="example1" class="table table-bordered table-striped">
                     <thead>
                     <tr>
@@ -25,26 +24,33 @@
                         <th>配置</th>
                         <th>值</th>
                         <th>创建时间</th>
+                        <th>更新时间</th>
                         <th>状态</th>
                         <th>操作</th>
                     </tr>
                     </thead>
                     <tbody class="">
                     {notempty name="_list"}
-
+                        {volist name="_list" id="vo"}
+                            <tr>
+                                <td>{$vo.id}</td>
+                                <td>{$vo.name} </td>
+                                <td>{$vo.value}</td>
+                                <td>{$vo.create_time|time_format}</td>
+                                <td>{$vo.update_time|time_format}</td>
+                                <td>{$vo.status|get_status_info}</td>
+                                <td>
+                                    <a href="{:url('edit',['id'=>$vo['id']])}">编辑</a>
+                                    {if condition='$vo["status"] eq 0'}
+                                        <a class="ajax-get" href="javascript:;" url="{:url('setConfigStatus',['id'=>$vo['id'],'status'=>1])}">启用</a>
+                                    {else/}
+                                        <a class="ajax-get" href="javascript:;" url="{:url('setConfigStatus',['id'=>$vo['id'],'status'=>0])}">禁用</a>
+                                    {/if}
+                                    <a class="ajax-get confirm" href="javascript:;" url="{:url('setConfigStatus',['id'=>$vo['id'],'status'=>-1])}">删除</a>
+                                </td>
+                            </tr>
+                        {/volist}
                         {else /}
-                        <tr>
-                            <td>12</td>
-                            <td>2017111212121212
-                            </td>
-                            <td>￥123.45元</td>
-                            <td>2017-12-12 12:12</td>
-                            <td><span class="label label-success">正常</span></td>
-                            <td>
-                                <a>编辑</a>
-                                <a class="ajax-get confirm" href="javascript:;" url="{:url('del',['id'=>1,'status'=>-1])}">删除</a>
-                            </td>
-                        </tr>
                         <tr><td colspan="6" class="text-center">暂无数据</td></tr>
                     {/notempty}
                     </tbody>
@@ -52,26 +58,14 @@
                     </tfoot>
                 </table>
                 <div class="row">
-                    <div class="col-md-6"></div>
+                    <div class="col-md-6">
+                        <div style="margin-top:20px;">
+                            <a href="{:url('add')}" class="btn btn-info">新增</a>
+                        </div>
+                    </div>
                     <div class="col-md-6" style="text-align: right;">
                         <nav aria-label="Page navigation" class="">
-                            <ul class="pagination">
-                                <li>
-                                    <a href="#" aria-label="Previous">
-                                        <span aria-hidden="true">上一页</span>
-                                    </a>
-                                </li>
-                                <li class="active"><a href="#">1</a></li>
-                                <li><a href="#">2</a></li>
-                                <li><a href="#">3</a></li>
-                                <li><a href="#">4</a></li>
-                                <li><a href="#">5</a></li>
-                                <li>
-                                    <a href="#" aria-label="Next">
-                                        <span aria-hidden="true">下一页</span>
-                                    </a>
-                                </li>
-                            </ul>
+                            {$_list->render()}
                         </nav>
                     </div>
                 </div>
