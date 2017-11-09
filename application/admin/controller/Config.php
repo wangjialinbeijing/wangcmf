@@ -8,7 +8,8 @@ class Config extends Admin
 {
 	public function group()
 	{
-		return $this->fetch('config/index');
+		echo date('Y-m-d H:i:s');
+//		return $this->fetch('config/index');
 	}
 
 	// 配置列表
@@ -64,6 +65,9 @@ class Config extends Admin
 		return $this->fetch();
 	}
 
+	/**
+	 * 表记录状态迁移
+	 */
 	public function setConfigStatus()
 	{
 		return $this->setStatus(Db::name('config'));

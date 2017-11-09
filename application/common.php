@@ -147,3 +147,8 @@ function get_status_info($status)
 	}
 	return $str;
 }
+
+function getParentMenuTitle($pid)
+{
+	return Db::name('menu')->where(['id'=>$pid])->value('title') ?? '--';
+}
