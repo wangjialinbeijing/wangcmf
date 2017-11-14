@@ -15,6 +15,7 @@ $(function(){
         }
         // 防止重复提交
         _self.text('正在提交').attr('disabled' , 'disabled');
+        $('#showErrorTips').hide();
         // ajax提交
         $.post(_action , _form.serialize() , function(data){
             if(data.code == 0)

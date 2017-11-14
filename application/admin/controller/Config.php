@@ -2,7 +2,7 @@
 namespace app\admin\controller;
 
 use think\Db;
-use think\Validate;
+use app\admin\validate\Config as ConfigValidate;
 
 class Config extends Admin
 {
@@ -31,19 +31,7 @@ class Config extends Admin
 		// 判断是否是POST
 		if(request()->isPost())
 		{
-			// 验证开始
-			$rule = [
-				'name'  => 'unique:config|require|max:100',
-				'value'   => 'require|max:1000',
-			];
-
-			$msg = [
-				'name.require' => '配置名不能为空',
-				'name.unique'     => '配置名已存在',
-				'value.require'   => '配置值不能为空',
-				'value.max'  => '值字符串长度过长',
-			];
-			$validate = new Validate($rule , $msg);
+			$validate = new ConfigValidate();
 			$result   = $validate->check(input('post.'));
 			if(!$result)
 			{
@@ -64,6 +52,43 @@ class Config extends Admin
 		$this->assign('active_url' , 'Config/index');
 		return $this->fetch();
 	}
+
+    // 新增配置
+    public function edit()
+    {
+        $id = input('id' );
+        $map['id'] = $id;
+        $info = Db::name('config')->where($map)->find();
+        if($info === null)
+        {
+            $this->error('参数错误或查询为空');
+        }
+        $this->assign('info' ,$info);
+
+        // 判断是否是POST
+        if(request()->isPost())
+        {
+            $validate = new ConfigValidate();
+            $result   = $validate->check(input('post.'));
+            if(!$result)
+            {
+                $this->error($validate->getError());
+            }
+            // 构造数据
+            $data = input('post.');
+            $data['update_time'] = time();
+            $map['id'] = $data['id'];
+            // 数据入库
+            $updateReturn = Db::name('config')->where($map)->update($data);
+            if($updateReturn)
+            {
+                $this->success('操作成功',url('config/index'));
+            }
+            $this->error('数据库操作失败');
+        }
+        $this->assign('active_url' , 'Config/index');
+        return $this->fetch();
+    }
 
 	/**
 	 * 表记录状态迁移
