@@ -4,6 +4,7 @@ namespace app\admin\controller;
 use Menu\Tree;
 use think\Db;
 use think\Validate;
+use app\admin\validate\Menu as MenuValidate;
 
 class Menu extends Admin
 {
@@ -35,24 +36,123 @@ class Menu extends Admin
 		// 判断是否是POST
 		if(request()->isPost())
 		{
-			//Todo::数据验证/数据保存/信息提示
+			// 数据获取
+			$data = input('post.');
+			// 数据验证
+			$validate = new MenuValidate();
+			$result = $validate->check($data);
+			if(!$result)
+			{
+				$this->error($validate->getError());
+			}
+			// 数据写入
+			$data['status'] = 1;
+			$insertId = Db::name('menu')->insert($data);
+			if($insertId !== false)
+			{
+				// 更新会话中的菜单信息
+				session('ADMIN_MENU_LIST' , NULL);
+				$this->success('保存成功');
+			}
+			$this->error('数据库操作失败');
 		}
 
-		$menus = Db::name('Menu')->select();
-		$treeObj = new Tree();
-		$menus = $treeObj->toFormatTree($menus);
-		$menus = array_merge([['id'=>0,'title_show'=>'顶级菜单']], $menus);
-		$this->assign('menus', $menus);
+		// 显示已有菜单树形结构
+		$this->assign('menus', $this->getMenuTreeList());
+		$this->assign('active_url' , 'Menu/index');
+		return $this->fetch();
+	}
 
+	// 编辑菜单
+	public function edit()
+	{
+		$id = input('id' ,0);
+		if(!$id)
+		{
+			$this->error('参数错误');
+		}
+		$menu_data = Db::name('menu')->where(['id'=>$id])->find();
+		if($menu_data === null)
+		{
+			$this->error('数据查询为空');
+		}
+		$this->assign('info' , $menu_data);
+
+		// 判断是否是POST
+		if(request()->isPost())
+		{
+			// 数据获取
+			$data = input('post.');
+			// 数据验证
+			$validate = new MenuValidate();
+			$result = $validate->check($data);
+			if(!$result)
+			{
+				$this->error($validate->getError());
+			}
+			// 数据更新
+			$map['id'] = $data['id'];
+			unset($data['id']);
+			$return = Db::name('menu')->where($map)->update($data);
+			if($return !== false)
+			{
+				// 更新会话中的菜单信息
+				session('ADMIN_MENU_LIST' , NULL);
+				$this->success('保存成功');
+			}
+			$this->error('数据库操作失败');
+		}
+
+		// 显示已有菜单树形结构
+		$this->assign('menus', $this->getMenuTreeList());
 		$this->assign('active_url' , 'Menu/index');
 		return $this->fetch();
 	}
 
 	/**
-	 * 表记录状态迁移
+	 * 获取菜单树形结构
 	 */
-	public function setConfigStatus()
+	private function getMenuTreeList()
 	{
-		return $this->setStatus(Db::name('config'));
+		$menus = Db::name('Menu')->select();
+		$treeObj = new Tree();
+		$menus = $treeObj->toFormatTree($menus);
+		$menus = array_merge([['id'=>0,'title_show'=>'顶级菜单']], $menus);
+		return $menus;
+	}
+
+	/**
+	 * 禁用和启用状态迁移
+	 */
+	public function setMenuStatus()
+	{
+		// 会话菜单数据初始化
+		session('ADMIN_MENU_LIST' , NULL);
+		return $this->setStatus(Db::name('menu'));
+	}
+
+	/**
+	 * 删除菜单
+	 */
+	public function del()
+	{
+		if(request()->isAjax())
+		{
+			$id = input('id' , 0);
+			if(!$id)
+			{
+				$this->error('删除失败，参数错误');
+			}
+			$map['id'] = $id;
+			$return = Db::name('menu')->where($map)->delete();
+			if(!$return)
+			{
+				$this->error('数据库操作失败！');
+			}
+			// 会话菜单信息初始化
+			session('ADMIN_MENU_LIST' , NULL);
+			$this->success('删除成功！');
+		}
+		$this->error('数据异常');
 	}
 }

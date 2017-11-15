@@ -46,7 +46,7 @@
                             {else/}
                             <a class="ajax-get" href="javascript:;" url="{:url('setMenuStatus',['id'=>$vo['id'],'status'=>0])}">禁用</a>
                             {/if}
-                            <a class="ajax-get confirm" href="javascript:;" url="{:url('setMenuStatus',['id'=>$vo['id'],'status'=>-1])}">删除</a>
+                            <a class="ajax-get confirm" href="javascript:;" url="{:url('del',['id'=>$vo['id']])}">删除</a>
                         </td>
                     </tr>
                     {/volist}
