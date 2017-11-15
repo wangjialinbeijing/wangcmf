@@ -8,6 +8,11 @@ use think\Db;
 
 class Admin extends Controller
 {
+
+	// 每页分页显示条数
+	protected $page = 10;
+
+	// 初始化方法
     protected function _initialize()
     {
         parent::_initialize();
@@ -151,11 +156,13 @@ class Admin extends Controller
 					}
 				}
 			}
+			// 菜单数据缓存到会话，减少数据查询
 			session('ADMIN_MENU_LIST.'.$controller,$menus);
 		}
 		return $menus;
 	}
 
+	// 表记录变更状态方法
 	protected function setStatus($model = null)
 	{
 		if($model !== null)

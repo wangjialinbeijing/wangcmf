@@ -1,20 +1,21 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: qiQAQqi
- * Date: 2017/11/2 0002
- * Time: 14:49
- */
-
 namespace app\admin\controller;
+use think\Db;
 
-
-use think\Controller;
-
+/**
+ * 用户控制器类
+ * Class User
+ * @package app\admin\controller
+ */
 class User extends Admin
 {
+	/**
+	 * 用户列表
+	 * @return mixed
+	 */
 	public function index()
 	{
-		echo time();
+		$this->assign('_list' , Db::name('user')->where(['status'=>['egt' ,0 ]])->order('create_time desc')->paginate($this->page));
+		return $this->fetch();
 	}
 }
