@@ -2,6 +2,7 @@
 namespace app\admin\controller;
 
 use Auth\Auth;
+use WBuilder\WBuilder;
 
 class Index extends Admin
 {
@@ -14,5 +15,11 @@ class Index extends Admin
 	public function testerror()
 	{
 		$this->error(1);
+	}
+
+	// 测试构建器
+	public function tb()
+	{
+		WBuilder::make('table');
 	}
 }
