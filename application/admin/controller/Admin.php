@@ -54,8 +54,8 @@ class Admin extends Controller
 	    // 是否是超级管理员
 	    define('IS_ROOT',  is_admin());
 
-	    // 权限判断
-	    if(IS_ROOT) //超级管理员没有权限限制
+	    // 权限判断(超级管理员默认拥有全部权限)
+	    if(!IS_ROOT)
 	    {
 	    	// 获取当前访问的控制器/方法地址
 		    $rule  = strtolower(MODULE_NAME.'/'.CONTROLLER_NAME.'/'.ACTION_NAME);
