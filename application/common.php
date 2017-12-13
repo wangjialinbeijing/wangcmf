@@ -130,6 +130,11 @@ function time_format($unix_time , $format = 'Y-m-d H:i')
 	return date($format , $unix_time);
 }
 
+/**
+ * 获取状态信息
+ * @param $status
+ * @return string
+ */
 function get_status_info($status)
 {
 	$str = '';
@@ -148,6 +153,11 @@ function get_status_info($status)
 	return $str;
 }
 
+/**
+ * 获取菜单的名称
+ * @param $pid
+ * @return mixed|string
+ */
 function getParentMenuTitle($pid)
 {
 	return Db::name('menu')->where(['id'=>$pid])->value('title') ?? '--';

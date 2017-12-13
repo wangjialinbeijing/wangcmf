@@ -55,12 +55,13 @@ class Admin extends Controller
 	    define('IS_ROOT',  is_admin());
 
 	    // 权限判断
-	    if(!IS_ROOT) //
+	    if(IS_ROOT) //超级管理员没有权限限制
 	    {
 	    	// 获取当前访问的控制器/方法地址
 		    $rule  = strtolower(MODULE_NAME.'/'.CONTROLLER_NAME.'/'.ACTION_NAME);
+		    // 初始化权限类
 		    $auth = new Auth();
-		    if(!$auth->check($rule,USER_ID,[1,2]))
+		    if(!$auth->check($rule,USER_ID))
 		    {
 				$this->error('未授权访问');
 		    }
