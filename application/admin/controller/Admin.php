@@ -195,4 +195,44 @@ class Admin extends Controller
 		}
 		$this->error('参数错误！');
 	}
+
+
+	/**
+	 * 获取菜单权限节点
+	 * @param bool $tree
+	 * @return array|false|mixed|\PDOStatement|string|\think\Collection
+	 * @throws \think\db\exception\DataNotFoundException
+	 * @throws \think\db\exception\ModelNotFoundException
+	 * @throws \think\exception\DbException
+	 */
+	protected function returnMenuNodes($tree = true){
+		static $tree_nodes = array();
+		if ( $tree && !empty($tree_nodes[(int)$tree]) ) {
+			return $tree_nodes[$tree];
+		}
+		if((int)$tree){
+			$list = Db::name('Menu')->field('id,pid,title,url,tip,hide')->order('sort asc')->select();
+			foreach ($list as $key => $value) {
+				if( stripos($value['url'],MODULE_NAME)!==0 ){
+					$list[$key]['url'] = MODULE_NAME.'/'.$value['url'];
+				}
+			}
+			$nodes = list_to_tree($list,$pk='id',$pid='pid',$child='operator',$root=0);
+			foreach ($nodes as $key => $value) {
+				if(!empty($value['operator'])){
+					$nodes[$key]['child'] = $value['operator'];
+					unset($nodes[$key]['operator']);
+				}
+			}
+		}else{
+			$nodes = Db::name('Menu')->field('title,url,tip,pid')->order('sort asc')->select();
+			foreach ($nodes as $key => $value) {
+				if( stripos($value['url'],MODULE_NAME)!==0 ){
+					$nodes[$key]['url'] = MODULE_NAME.'/'.$value['url'];
+				}
+			}
+		}
+		$tree_nodes[(int)$tree]   = $nodes;
+		return $nodes;
+	}
 }

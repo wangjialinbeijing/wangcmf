@@ -1,0 +1,12 @@
+.node-title
+{
+    margin-left:10px;font-size: 16px;
+}
+.node-row
+{
+    padding-left:35px;padding-top:18px;padding-bottom: 18px;
+}
+.node-child
+{
+    display: block;float: left;
+}
