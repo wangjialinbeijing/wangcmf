@@ -176,7 +176,6 @@ class Admin extends Controller
 				$map = [];
 				$map['id'] = $id;
 				$data['status'] = $status;
-				$data['update_time'] = time();
 				$model->where($map)->update($data);
 
 				switch ($status)
