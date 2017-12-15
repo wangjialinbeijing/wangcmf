@@ -10,7 +10,7 @@
     <div class="col-md-12"><!--使用bootstrap的全局样式col 控制box的宽度-->
         <!-- general form elements -->
         <form class="form-horizontal" action="{:url('edit_group')}" method="post">
-            <input type="hidden" value="{:input('group_id')}" name="id" />
+            <input type="hidden" value="{:input('id')}" name="id" />
         {volist name="node_list" id="node"}
         <div class="box">
             <div class="box-header with-border">
@@ -19,29 +19,31 @@
                        {if condition="in_array( $node['id'] , $auth_group_nodes )"}checked="checked"{/if}/>
             </div>
             <div class="box-body">
-                {volist name="node.child" id="child"}
-                    <div class="row">
-                        <div class="col-md-12">
-                            <span class="node-title">{$child.title}</span>
-                            <input class="node-check" type="checkbox" value="{$child.id}"  name="rules[]"
-                                   {if condition="in_array( $child['id'] , $auth_group_nodes )"}checked="checked"{/if}/>
+                {notempty name="node.child"}
+                    {volist name="node.child" id="child"}
+                        <div class="row">
+                            <div class="col-md-12">
+                                <span class="node-title">{$child.title}</span>
+                                <input class="node-check" type="checkbox" value="{$child.id}"  name="rules[]"
+                                       {if condition="in_array( $child['id'] , $auth_group_nodes )"}checked="checked"{/if}/>
+                            </div>
                         </div>
-                    </div>
-                    <div>
-                        <div class="col-md-12 node-row">
-                            {if condition="isset($child['operator'])"}
-                                {volist name="child.operator" id="item"}
-                                    <span class="node-child" style="">{$item.title}:
-                                        <input class="node-check" type="checkbox" name="rules[]" value="{$item.id}"
-                                               {if condition="in_array( $item['id'] , $auth_group_nodes )"}checked="checked"{/if}
-                                        />&nbsp;&nbsp;&nbsp;&nbsp;
-                                    </span>
-                                {/volist}
-                            {/if}
-                            <div class="clear"></div>
+                        <div>
+                            <div class="col-md-12 node-row">
+                                {if condition="isset($child['operator'])"}
+                                    {volist name="child.operator" id="item"}
+                                        <span class="node-child" style="">{$item.title}:
+                                            <input class="node-check" type="checkbox" name="rules[]" value="{$item.id}"
+                                                   {if condition="in_array( $item['id'] , $auth_group_nodes )"}checked="checked"{/if}
+                                            />&nbsp;&nbsp;&nbsp;&nbsp;
+                                        </span>
+                                    {/volist}
+                                {/if}
+                                <div class="clear"></div>
+                            </div>
                         </div>
-                    </div>
-                {/volist}
+                    {/volist}
+                {/notempty}
             </div>
         </div>
         {/volist}

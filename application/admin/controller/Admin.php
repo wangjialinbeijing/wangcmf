@@ -234,4 +234,74 @@ class Admin extends Controller
 		$tree_nodes[(int)$tree]   = $nodes;
 		return $nodes;
 	}
+
+	/**
+	 * 通过菜单更新节点数据
+	 * @return bool
+	 * @throws \think\Exception
+	 * @throws \think\db\exception\DataNotFoundException
+	 * @throws \think\db\exception\ModelNotFoundException
+	 * @throws \think\exception\DbException
+	 * @throws \think\exception\PDOException
+	 */
+	public function updateRules(){
+		//需要新增的节点必然位于菜单节点
+		$nodes    = $this->returnMenuNodes(false);
+		// 查询现在的节点规则
+		$map['module'] = 'admin';
+		$map['type'] = ['in' ,'1,2'];
+		$rules    = Db::name('auth_rule')->where($map)->order('name')->select();
+		//保存需要插入和更新的新节点
+		$data     = [];
+		foreach ($nodes as $value)
+		{
+			$temp['name']   = $value['url'];
+			$temp['title']  = $value['title'];
+			$temp['module'] = 'admin';
+			$temp['type'] = 2; // 顶级菜单
+			if($value['pid'] > 0){
+				$temp['type'] = 1; // 一般URL
+			}
+			$temp['status']   = 1;
+			$data[strtolower($temp['name'].$temp['module'].$temp['type'])] = $temp;//去除重复项
+		}
+
+		$update = [];//保存需要更新的节点
+		$ids    = [];//保存需要删除的节点的id
+		foreach ($rules as $index=>$rule)
+		{
+			$key = strtolower($rule['name'].$rule['module'].$rule['type']);
+			if ( isset($data[$key]) ) {//如果数据库中的规则与配置的节点匹配,说明是需要更新的节点
+				$data[$key]['id'] = $rule['id'];//为需要更新的节点补充id值
+				$update[] = $data[$key];
+				unset($data[$key]);
+				unset($rules[$index]);
+				unset($rule['condition']);
+				$diff[$rule['id']]=$rule;
+			}elseif($rule['status']==1){
+				$ids[] = $rule['id'];
+			}
+		}
+		// 是否有更新的节点数据
+		if ( count($update) ) {
+			foreach ($update as $k=>$row){
+				if ( $row != $diff[$row['id']] ) {
+					Db::name('auth_rule')->where(['id'=>$row['id']])->update($row);
+				}
+			}
+		}
+		// 是否有需要删除的节点数据
+		if ( count($ids) ) {
+			Db::name('auth_rule')->where( array( 'id'=>array('IN',implode(',',$ids)) ) )->update(array('status'=>-1));
+			//删除规则是否需要从每个用户组的访问授权表中移除该规则?
+		}
+		// 是否有新增的节点数据
+		if( count($data) ){
+			foreach($data as $value)
+			{
+				Db::name('auth_rule')->insert($value);
+			}
+		}
+		return true;
+	}
 }

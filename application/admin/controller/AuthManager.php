@@ -133,12 +133,15 @@ class AuthManager extends Admin
 	/**
 	 * 分组节点管理
 	 * @return mixed
+	 * @throws \think\Exception
 	 * @throws \think\db\exception\DataNotFoundException
 	 * @throws \think\db\exception\ModelNotFoundException
 	 * @throws \think\exception\DbException
+	 * @throws \think\exception\PDOException
 	 */
 	public function groupmanage()
 	{
+		$this->updateRules();
 		// 获取分组ID
 		$group_id = input('id');
 		if(!$group_id)
@@ -164,6 +167,32 @@ class AuthManager extends Admin
 		// 菜单高亮
 		$this->assign('active_url' , 'AuthManager/index');
 		return $this->fetch();
+	}
+
+	/**
+	 * 保存分组节点更新数据
+	 * @throws \think\Exception
+	 * @throws \think\exception\PDOException
+	 */
+	public function edit_group()
+	{
+		if($this->request->isPost())
+		{
+			$data = $this->request->post();
+			if(!$data['id'] || !isset($data['rules']))
+			{
+				$this->error('参数错误！');
+			}
+			$map['id'] = $data['id'];
+			unset($data['id']);
+			sort($data['rules']);
+			$data['rules']  = implode( ',' , array_unique($data['rules']));
+			if(Db::name('auth_group')->where($map)->update($data))
+			{
+				$this->success('操作成功!',url('index'));
+			}
+		}
+		$this->error('操作失败');
 	}
 
 	/**
