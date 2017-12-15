@@ -120,6 +120,7 @@ class AuthManager extends Admin
 					$this->error('请勿重复添加');
 				}
 				$insertId = Db::name('auth_group_access')->insert($data);
+				print_r($insertId);
 				if($insertId !== false)
 				{
 					$this->success('添加成功');

@@ -45,14 +45,13 @@ class Admin extends Controller
 	    define('__APP__',strip_tags(rtrim($_SERVER['SCRIPT_NAME'],'/')));
 	    // 当前请求是否AJAX
 	    define('IS_AJAX' , request()->isAjax());
+	    // 是否是超级管理员
+	    define('IS_ROOT',  is_admin());
 
 		// 菜单变量置换到模板中
 	    $this->assign('menu_list' , $this->getMenus());
 	    // 当前选中的控制器/方法
 	    $this->assign('active_url' , CONTROLLER_NAME.'/'.ACTION_NAME);
-
-	    // 是否是超级管理员
-	    define('IS_ROOT',  is_admin());
 
 	    // 权限判断(超级管理员默认拥有全部权限)
 	    if(!IS_ROOT)
@@ -79,12 +78,13 @@ class Admin extends Controller
 			$where['hide']  =   0;
 			$menus['main']  =   Db::name('menu')->where($where)->order('sort asc')->field('id,title,url')->select();
 			$menus['child'] =   array(); //设置子节点
+			$auth = new Auth();
 			foreach ($menus['main'] as $key => $item) {
 				// 判断主菜单权限
-//				if ( !IS_ROOT && !$this->checkRule(strtolower(MODULE_NAME.'/'.$item['url']),AuthRuleModel::RULE_MAIN,null) ) {
-//					unset($menus['main'][$key]);
-//					continue;//继续循环
-//				}
+				if ( !IS_ROOT && !$auth->check(strtolower(MODULE_NAME.'/'.$item['url']),USER_ID) ) {
+					unset($menus['main'][$key]);
+					continue;//继续循环
+				}
 				if(strtolower(CONTROLLER_NAME.'/'.ACTION_NAME)  == strtolower($item['url'])){
 					$menus['main'][$key]['class']='active';
 				}
@@ -121,7 +121,7 @@ class Admin extends Controller
 						$where['hide']  =   0;
 						$second_urls = Db::name('menu')->where($where)->column('url' , 'id');
 
-//						if(!IS_ROOT){
+						if(!IS_ROOT){
 							// 检测菜单权限
 							$to_check_urls = array();
 							if($second_urls)
@@ -132,12 +132,14 @@ class Admin extends Controller
 									}else{
 										$rule = $to_check_url;
 									}
-//								if($this->checkRule($rule, AuthRuleModel::RULE_URL,null))
-									$to_check_urls[] = $to_check_url;
+									if($auth->check($rule, USER_ID,null))
+									{
+										$to_check_urls[] = $to_check_url;
+									}
 								}
 							}
 
-//						}
+						}
 						// 按照分组生成子菜单树
 						foreach ($groups as $g) {
 							$map = array('group'=>$g);
