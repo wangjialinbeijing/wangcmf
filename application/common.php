@@ -15,7 +15,9 @@ if(!function_exists('is_login'))
 {
 	// 检测用户是否已经登录
 	function is_login(){
+		// 获取会话中的用户信息
 		$user = session('user_auth');
+		// 若不存在，则返回0
 		if (empty($user)) {
 			return 0;
 		} else {
@@ -28,7 +30,7 @@ if(!function_exists('is_login'))
 
 if(!function_exists('sys_md5'))
 {
-	// 系统加密
+	// 系统密码加密方法
 	function sys_md5($string)
 	{
 		return md5(md5($string));

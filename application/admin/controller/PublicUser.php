@@ -5,6 +5,11 @@ use think\Controller;
 use think\Db;
 use think\Validate;
 
+/**
+ * 用户登录、注销操作类
+ * Class PublicUser
+ * @package app\admin\controller
+ */
 class PublicUser extends Controller
 {
 	/**
@@ -79,18 +84,19 @@ class PublicUser extends Controller
 	 */
 	public function checkFormData($data)
 	{
+		// 表单验证规则
 		$rule = [
-			'mobile'  => 'require|regex:\d{11}|token',
-			'password'  => 'require|max:25|min:6',
+			'mobile'  => 'require|regex:\d{11}',    // 不能为空|正则验证：必须为11位数字
+			'password'  => 'require|max:25|min:6',  // 不能为空|最大25长度|最小6位长度
 		];
 		$msg = [
-			'mobile.regex' => '手机号格式错误',
-			'password.require' => '密码不能为空'
+			'mobile.regex' => '手机号格式错误',       // 手机号字段验证错误提示文本
+			'password.require' => '密码不能为空'      // 密码字段验证错误提示文本
 		];
-		$validate = new Validate($rule , $msg);
-		$result   = $validate->check($data);
+		$validate = new Validate($rule , $msg);  // 使用内置的验证类
+		$result   = $validate->check($data);     // 执行验证操作
 		if(!$result){
-			return $validate->getError();
+			return $validate->getError();        // 验证失败，返回验证信息
 		}
 		return '';
 	}
