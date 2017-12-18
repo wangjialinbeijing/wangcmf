@@ -17,7 +17,11 @@
             </a>
             <!-- 一级导航 -->
             <ul class="nav navbar-nav">
-                <li class=""><a href="">导航名</a></li>
+                {notempty name="menu_list.main"}
+                {volist name="menu_list.main" id="menu"}
+                <li class="{$menu.class|default=''}"><a href="{:url($menu['url'])}">{$menu.title}</a></li>
+                {/volist}
+                {/notempty}
             </ul>
             <!-- 登录用户会话信息展示 -->
             <div class="navbar-custom-menu">
@@ -27,23 +31,28 @@
                         <!-- Menu Toggle Button -->
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                             <!-- 显示用户名 -->
-                            <span class="hidden-xs">测试用户名</span>
+                            <span class="hidden-xs">{:session('user_auth.name')}</span>
                         </a>
                         <ul class="dropdown-menu">
                             <!-- 显示用户详细信息 -->
                             <li class="user-header" style="height: 100px;">
-                                <p>用户ID：测试ID</p>
-                                <p>用户名：测试用户名</p>
+                                <p>用户ID：{:session('user_auth.user_id')}</p>
+                                <p>用户名：{:session('user_auth.name')}</p>
                             </li>
                             <!-- 用户操作区域-->
                             <li class="user-footer">
                                 <div class="pull-left">
+                                    <!--<a href="#" class="btn btn-default btn-flat">个人设置</a>-->
                                 </div>
                                 <div class="pull-right">
                                     <a href="{:url('public_user/logout')}" class="btn btn-default btn-flat">注销登录</a>
                                 </div>
                             </li>
                         </ul>
+                    </li>
+                    <!-- Control Sidebar Toggle Button -->
+                    <li>
+                        <a href="#" data-toggle="control-sidebar"><i class="fa fa-gears"></i></a>
                     </li>
                 </ul>
             </div>

@@ -1,14 +1,13 @@
 <?php
 namespace app\admin\controller;
 
-use Auth\Auth;
 use WBuilder\WBuilder;
 
 class Index extends Admin
 {
+	// 测试基础布局文件
     public function index()
     {
-    	$auth = new Auth();
         return $this->fetch();
     }
 

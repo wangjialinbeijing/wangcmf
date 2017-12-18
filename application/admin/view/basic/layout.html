@@ -1,43 +1,49 @@
-{include file='basic:header'/}
-{include file='basic:menu'/}
-{include file='basic:nav'/}
+{include file='basic:header'/} <!-- 引入顶部公共模板文件 -->
+{include file='basic:nav'/} <!-- 引入菜单公共模板文件 -->
+{include file='basic:menu'/} <!-- 引入导航公共模板文件 -->
 <!-- Content Wrapper. Contains page content -->
 <div class="content-wrapper">
-    <!-- Content Header (Page header) -->
+<!-- Content Header (Page header) -->
     <section class="content-header">
-        <h1>
-            {block name="page_header"}
-            {/block}
-            <small>{block name="page_header_small"}{/block}</small>
-        </h1>
+    <h1>
+        {block name="page_header"}
+            <!-- 模板继承：页面标题 -->
+        {/block}
+    <small>
+        {block name="page_header_small"}
+            <!-- 模板继承：页面副标题 -->
+        {/block}
+    </small>
+    </h1>
         <ol class="breadcrumb">
             {block name="nav_tips"}
-            <!--<li><a href="#"><i class="fa fa-dashboard"></i> Level</a></li>-->
-            <!--<li class="active">Here</li>-->
+                <!-- 模板继承：导航提示 -->
             {/block}
         </ol>
     </section>
 
     <!-- Main content -->
     <section class="content container-fluid">
+        <!-- 定义全局成功提示信息框 -->
         <div id="showSuccessTips" class="callout callout-success" style="display: none;">
             <h4>成功！</h4>
             <p></p>
         </div>
+        <!-- 定义全局失败提示信息框 -->
         <div id="showErrorTips" class="callout callout-danger" style="display: none;">
             <h4>错误！</h4>
             <p></p>
         </div>
-        <!--------------------------
-          | Your Page Content Here |
-          -------------------------->
-
-        {block name="content"}{/block}
+        {block name="content"}
+        <!-- 模板继承：定义主体内容 -->
+        {/block}
     </section>
-    <!-- /.content -->
+<!-- /.content -->
 </div>
 <!-- /.content-wrapper -->
-{include file='basic:footer'/}
-{block name='script'}{/block}
+{include file='basic:footer'/} <!-- 引入底部公共模板文件 -->
+{block name='script'}
+    <!-- 模板继承：定义JavaScript脚本文件 -->
+{/block}
 </body>
 </html>

@@ -1,84 +1,20 @@
-<!--
-BODY TAG OPTIONS:
-=================
-Apply one or more of the following classes to get the
-desired effect
-|---------------------------------------------------------|
-| SKINS         | skin-blue                               |
-|               | skin-black                              |
-|               | skin-purple                             |
-|               | skin-yellow                             |
-|               | skin-red                                |
-|               | skin-green                              |
-|---------------------------------------------------------|
-|LAYOUT OPTIONS | fixed                                   |
-|               | layout-boxed                            |
-|               | layout-top-nav                          |
-|               | sidebar-collapse                        |
-|               | sidebar-mini                            |
-|---------------------------------------------------------|
--->
-<body class="hold-transition skin-blue sidebar-mini">
-<div class="wrapper">
-
-    <!-- Main Header -->
-    <header class="main-header">
-
-        <!-- Logo -->
-        <a href="/admin" class="logo">
-            <!-- mini logo for sidebar mini 50x50 pixels -->
-            <span class="logo-mini">{:config('SITES_NAME')}</span>
-            <!-- logo for regular state and mobile devices -->
-            <span class="logo-lg">{:config('SITES_NAME')}</span>
-        </a>
-
-        <!-- Header Navbar -->
-        <nav class="navbar navbar-static-top" role="navigation">
-            <!-- Sidebar toggle button-->
-            <a href="#" class="sidebar-toggle" data-toggle="push-menu" role="button">
-                <span class="sr-only">Toggle navigation</span>
-            </a>
-            <!-- 一级导航 -->
-            <ul class="nav navbar-nav">
-                {notempty name="menu_list.main"}
-                    {volist name="menu_list.main" id="menu"}
-                        <li class="{$menu.class|default=''}"><a href="{:url($menu['url'])}">{$menu.title}</a></li>
-                    {/volist}
-                {/notempty}
-            </ul>
-
-            <!-- 一级导航 -->
-            <!-- Navbar Right Menu -->
-            <div class="navbar-custom-menu">
-                <ul class="nav navbar-nav">
-                    <!-- User Account Menu -->
-                    <li class="dropdown user user-menu">
-                        <!-- Menu Toggle Button -->
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                            <span class="hidden-xs">{:session('user_auth.name')}</span>
-                        </a>
-                        <ul class="dropdown-menu">
-                            <!-- The user image in the menu -->
-                            <li class="user-header" style="height: 100px;">
-                                <p>用户ID：{:session('user_auth.user_id')}</p>
-                                <p>用户名：{:session('user_auth.name')}</p>
-                            </li>
-                            <!-- Menu Footer-->
-                            <li class="user-footer">
-                                <div class="pull-left">
-                                    <!--<a href="#" class="btn btn-default btn-flat">个人设置</a>-->
-                                </div>
-                                <div class="pull-right">
-                                    <a href="{:url('public_user/logout')}" class="btn btn-default btn-flat">注销登录</a>
-                                </div>
-                            </li>
-                        </ul>
-                    </li>
-                    <!-- Control Sidebar Toggle Button -->
-                    <li>
-                        <a href="#" data-toggle="control-sidebar"><i class="fa fa-gears"></i></a>
+<aside class="main-sidebar">
+    <section class="sidebar">
+        <!-- 左侧菜单组 -->
+        <ul class="sidebar-menu" data-widget="tree">
+            <li class="header">导航</li>
+            <li class="treeview active">
+                <a href="#"><i class="fa fa-link"></i> <span>菜单组</span>
+                    <span class="pull-right-container">
+                <i class="fa fa-angle-left pull-right"></i>
+              </span>
+                </a>
+                <ul class="treeview-menu">
+                    <li class="active">
+                        <a href="/">菜单组内容</a>
                     </li>
                 </ul>
-            </div>
-        </nav>
-    </header>
+            </li>
+        </ul>
+    </section>
+</aside>
