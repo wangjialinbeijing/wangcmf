@@ -18,9 +18,9 @@
             <!-- 一级导航 -->
             <ul class="nav navbar-nav">
                 {notempty name="menu_list.main"}
-                {volist name="menu_list.main" id="menu"}
-                <li class="{$menu.class|default=''}"><a href="{:url($menu['url'])}">{$menu.title}</a></li>
-                {/volist}
+                    {volist name="menu_list.main" id="menu"}
+                    <li class="{$menu.class|default=''}"><a href="{:url($menu['url'])}">{$menu.title}</a></li>
+                    {/volist}
                 {/notempty}
             </ul>
             <!-- 登录用户会话信息展示 -->

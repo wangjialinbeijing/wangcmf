@@ -2,10 +2,10 @@
 <aside class="main-sidebar">
     <!-- sidebar: style can be found in sidebar.less -->
     <section class="sidebar">
-        <!-- 左侧菜单组 -->
-        <ul class="sidebar-menu" data-widget="tree">
-            <li class="header">菜单组</li>
-            {notempty name="menu_list.child"}
+    <!-- 左侧菜单组 -->
+    <ul class="sidebar-menu" data-widget="tree">
+        <li class="header">菜单组</li>
+        {notempty name="menu_list.child"}
             {volist name="menu_list.child" id="sub_menu"}
             <li class="treeview {if condition='show_menu_active($sub_menu , $active_url) eq true'}active{/if}">
                 <a href="#"><i class="fa fa-link"></i> <span>{$key}</span>
@@ -15,15 +15,15 @@
                 </a>
                 <ul class="treeview-menu">
                     {volist name="sub_menu" id="menu"}
-                    <li class="{if condition='$active_url eq $menu["url"]'}active{/if}">
-                    <a href="{:url($menu.url)}">{$menu.title}</a>
-                    </li>
+                        <li class="{if condition='$active_url eq $menu["url"]'}active{/if}">
+                        <a href="{:url($menu.url)}">{$menu.title}</a>
+                        </li>
                     {/volist}
                 </ul>
             </li>
             {/volist}
-            {/notempty}
-        </ul>
+        {/notempty}
+    </ul>
         <!-- 左侧菜单组 -->
     </section>
     <!-- /.sidebar -->

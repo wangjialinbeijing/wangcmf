@@ -89,13 +89,13 @@ if(!function_exists('show_menu_active'))
 {
 	/**
 	 * 菜单选中效果
-	 * @param $sub_menu
-	 * @param $active_url
+	 * @param $sub_menu 所有菜单项
+	 * @param $active_url 当前选中的url
 	 * @return bool
 	 */
 	function show_menu_active($sub_menu, $active_url)
 	{
-		$active = false;
+		$active = false; // 是否选中
 		if (!empty($sub_menu) && $active_url) {
 			foreach ($sub_menu as $key => $val) {
 				if ($active_url == $val['url']) {

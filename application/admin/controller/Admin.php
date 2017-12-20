@@ -50,7 +50,6 @@ class Admin extends Controller
 
 		// 菜单变量置换到模板中
 	    $this->assign('menu_list' , $this->getMenus());
-	    dump($this->getMenus());die;
 	    // 当前选中的控制器/方法
 	    $this->assign('active_url' , CONTROLLER_NAME.'/'.ACTION_NAME);
 
