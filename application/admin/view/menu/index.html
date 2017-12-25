@@ -31,27 +31,27 @@
                     </thead>
                     <tbody class="">
                     {notempty name="_list"}
-                    {volist name="_list" id="vo"}
-                    <tr>
-                        <td>{$vo.id}</td>
-                        <td><a href="{:url('index' , ['pid'=>$vo.id])}">{$vo.title}</a></td>
-                        <td>{$vo.pid|getParentMenuTitle}</td>
-                        <td>{$vo.group|default='--'}</td>
-                        <td>{$vo.url}</td>
-                        <td>{$vo.status|get_status_info}</td>
-                        <td>
-                            <a href="{:url('edit',['id'=>$vo['id']])}">编辑</a>
-                            {if condition='$vo["status"] eq 0'}
-                            <a class="ajax-get" href="javascript:;" url="{:url('setMenuStatus',['id'=>$vo['id'],'status'=>1])}">启用</a>
-                            {else/}
-                            <a class="ajax-get" href="javascript:;" url="{:url('setMenuStatus',['id'=>$vo['id'],'status'=>0])}">禁用</a>
-                            {/if}
-                            <a class="ajax-get confirm" href="javascript:;" url="{:url('del',['id'=>$vo['id']])}">删除</a>
-                        </td>
-                    </tr>
-                    {/volist}
+                        {volist name="_list" id="vo"}
+                        <tr>
+                            <td>{$vo.id}</td>
+                            <td><a href="{:url('index' , ['pid'=>$vo.id])}">{$vo.title}</a></td>
+                            <td>{$vo.pid|getParentMenuTitle}</td>
+                            <td>{$vo.group|default='--'}</td>
+                            <td>{$vo.url}</td>
+                            <td>{$vo.status|get_status_info}</td>
+                            <td>
+                                <a href="{:url('edit',['id'=>$vo['id']])}">编辑</a>
+                                {if condition='$vo["status"] eq 0'}
+                                <a class="ajax-get" href="javascript:;" url="{:url('setMenuStatus',['id'=>$vo['id'],'status'=>1])}">启用</a>
+                                {else/}
+                                <a class="ajax-get" href="javascript:;" url="{:url('setMenuStatus',['id'=>$vo['id'],'status'=>0])}">禁用</a>
+                                {/if}
+                                <a class="ajax-get confirm" href="javascript:;" url="{:url('del',['id'=>$vo['id']])}">删除</a>
+                            </td>
+                        </tr>
+                        {/volist}
                     {else /}
-                    <tr><td colspan="6" class="text-center">暂无数据</td></tr>
+                        <tr><td colspan="6" class="text-center">暂无数据</td></tr>
                     {/notempty}
                     </tbody>
                     <tfoot>

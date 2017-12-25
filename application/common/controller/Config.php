@@ -20,7 +20,7 @@ class Config extends Controller
 		$map    = array('status' => 1);
 		$data   = Db::name('Config')->where($map)->field('type,name,value')->select();
 
-		$config = array();
+		$config = [];
 		if($data && is_array($data)){
 			foreach ($data as $value) {
 				$config[$value['name']] = self::parse($value['type'], $value['value']);
@@ -30,8 +30,8 @@ class Config extends Controller
 	}
 
 	/**
-	 * @param $type
-	 * @param $value
+	 * @param $type 配置项类型，0：字符串，1：数组类型
+	 * @param $value 配置项值
 	 * @return array|false|string[]
 	 */
 	private static function parse($type, $value){

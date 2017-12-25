@@ -6,26 +6,37 @@ use think\Db;
 use think\Validate;
 use app\admin\validate\Menu as MenuValidate;
 
+/**
+ * 菜单管理类
+ * Class Menu
+ * @package app\admin\controller
+ */
 class Menu extends Admin
 {
-
-	// 菜单列表
+	/**
+	 * 菜单列表
+	 * @return mixed
+	 * @throws \think\exception\DbException
+	 */
 	public function index()
 	{
 		// 查询条件
 		$map = [];
-		$map['status'] = ['egt' , 0];
-		$map['pid'] = 0;
-		$pid = input('pid' , 0);
+		$map['status'] = ['egt' , 0]; // 非删除记录
+		$map['pid'] = 0;              // 一级菜单
+		$pid = input('pid' , 0);      // 是否需要查看下级分类
 		if($pid)
 		{
-			$map['pid'] = $pid;
+			$map['pid'] = $pid;       // 增加菜单查询条件
 		}
+		// 带分页的列表查询
 		$list = Db::name('menu')->where($map)->order('sort asc')->paginate(10);
 		if($list)
 		{
+			// 变量置换
 			$this->assign('_list' , $list);
 		}
+		// 变量置换
 		$this->assign('pid' , $pid);
 		return $this->fetch();
 	}
