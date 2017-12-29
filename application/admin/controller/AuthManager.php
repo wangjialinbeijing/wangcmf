@@ -4,18 +4,22 @@ namespace app\admin\controller;
 use app\admin\validate\AuthGroup;
 use think\Db;
 
+/**
+ * 权限管理
+ * Class AuthManager
+ * @package app\admin\controller
+ */
 class AuthManager extends Admin
 {
 	/**
 	 * 权限分组列表
 	 * @return mixed
-	 * @throws \think\exception\DbException
 	 */
 	public function index()
 	{
-		$map['status'] = ['egt' ,0];
+		$map['status'] = ['egt' ,0];  // 条件查询
 		$group_list = Db::name('AuthGroup')->where( $map )->paginate(10);
-		$this->assign('_list' , $group_list);
+		$this->assign('_list' , $group_list);   // 变量置换
 		return $this->fetch();
 	}
 
@@ -134,11 +138,6 @@ class AuthManager extends Admin
 	/**
 	 * 分组节点管理
 	 * @return mixed
-	 * @throws \think\Exception
-	 * @throws \think\db\exception\DataNotFoundException
-	 * @throws \think\db\exception\ModelNotFoundException
-	 * @throws \think\exception\DbException
-	 * @throws \think\exception\PDOException
 	 */
 	public function groupmanage()
 	{

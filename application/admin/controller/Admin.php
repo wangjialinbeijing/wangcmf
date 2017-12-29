@@ -62,6 +62,7 @@ class Admin extends Controller
 		    $auth = new Auth();
 		    if(!$auth->check($rule,USER_ID))
 		    {
+		    	unset($_SESSION);
 				$this->error('未授权访问');
 		    }
 	    }
@@ -70,7 +71,7 @@ class Admin extends Controller
 	/**
 	 * 获取控制器菜单数组,二级菜单元素位于一级菜单的'_child'元素中
 	 */
-	final public function getMenus($controller=CONTROLLER_NAME){
+	public function getMenus($controller=CONTROLLER_NAME){
 		$menus  =   session('ADMIN_MENU_LIST.'.$controller);
 		if(empty($menus)){
 			// 获取主菜单
@@ -202,9 +203,6 @@ class Admin extends Controller
 	 * 获取菜单权限节点
 	 * @param bool $tree
 	 * @return array|false|mixed|\PDOStatement|string|\think\Collection
-	 * @throws \think\db\exception\DataNotFoundException
-	 * @throws \think\db\exception\ModelNotFoundException
-	 * @throws \think\exception\DbException
 	 */
 	protected function returnMenuNodes($tree = true){
 		static $tree_nodes = array();
@@ -240,11 +238,6 @@ class Admin extends Controller
 	/**
 	 * 通过菜单更新节点数据
 	 * @return bool
-	 * @throws \think\Exception
-	 * @throws \think\db\exception\DataNotFoundException
-	 * @throws \think\db\exception\ModelNotFoundException
-	 * @throws \think\exception\DbException
-	 * @throws \think\exception\PDOException
 	 */
 	public function updateRules(){
 		//需要新增的节点必然位于菜单节点
