@@ -3,6 +3,7 @@ namespace app\admin\controller;
 
 use app\common\controller\Config;
 use Auth\Auth;
+use Cron\CronExpression;
 use think\Controller;
 use think\Db;
 
@@ -11,6 +12,13 @@ class Admin extends Controller
 
 	// 每页分页显示条数
 	protected $page = 10;
+
+	// 测试用
+	public function cron()
+	{
+		$cron = CronExpression::factory('* * * * *');
+		dump($cron);
+	}
 
 	// 初始化方法
     protected function _initialize()
