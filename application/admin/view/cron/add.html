@@ -1,0 +1,118 @@
+{extend name="basic:layout"}
+{block name="page_header"}
+配置管理
+{/block}
+{block name="page_header_small"}
+编辑
+{/block}
+{block name="content"}
+<div class="row"><!--使用bootstrap的全局样式row-->
+    <div class="col-md-12"><!--使用bootstrap的全局样式col 控制box的宽度-->
+        <!-- general form elements -->
+        <div class="box box-primary">
+            <div class="box-header with-border">
+                <h3 class="box-title">新增配置</h3>
+            </div>
+            <!-- /.box-header -->
+            <!-- form start -->
+            <form class="form-horizontal" action="{:url('add')}" method="post">
+                <div class="box-body">
+                    <!-- text -->
+                    <div class="form-group"> <!--成功的表单项，需要增加has-success预定义类-->
+                        <label for="" class="col-sm-2 control-label">
+                            任务名称
+                        </label>
+                        <div class="col-sm-6"><!--控制INPUT元素的宽度-->
+                            <input type="text" name="title" class="form-control" id="" placeholder="任务名称">
+                        </div>
+                    </div>
+                    <div class="form-group"> <!--成功的表单项，需要增加has-success预定义类-->
+                        <label for="" class="col-sm-2 control-label">
+                            任务类型
+                        </label>
+                        <div class="col-sm-6"><!--控制INPUT元素的宽度-->
+                            <select class="form-control" name="type">
+                                <option value="shell">Shell命令</option>
+                                <option value="url">URL</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="" class="col-sm-2 control-label">任务内容</label>
+                        <div class="col-sm-6"><!--控制INPUT元素的宽度-->
+                            <textarea class="form-control" name="content" rows="10"></textarea>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="" class="col-sm-2 control-label">
+                            Cron表达式
+                        </label>
+                        <div class="col-sm-6">
+                            <input type="text" name="schedule" class="form-control"  placeholder="* * * * *">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="" class="col-sm-2 control-label">
+                            最大执行次数
+                        </label>
+                        <div class="col-sm-6">
+                            <input type="text" name="maximums" class="form-control" value="0"  placeholder="默认0为不限制次数">
+                        </div>
+                        <span>默认0为不限制次数</span>
+                    </div>
+                    <div class="form-group">
+                        <label for="" class="col-sm-2 control-label">
+                            延迟执行秒数
+                        </label>
+                        <div class="col-sm-6">
+                            <input type="text" name="sleep" class="form-control" value="0"  placeholder="延迟执行秒数">
+                        </div>
+                        <span>默认0为不限制次数</span>
+                    </div>
+                    <div class="form-group">
+                        <label for="" class="col-sm-2 control-label">
+                            开始时间
+                        </label>
+                        <div class="col-sm-6">
+                            <input type="datetime-local" name="begin_time" class="form-control" placeholder="开始时间">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="" class="col-sm-2 control-label">
+                            结束时间
+                        </label>
+                        <div class="col-sm-6">
+                            <input type="datetime-local" name="end_time" class="form-control" placeholder="结束时间">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- /.box-body -->
+                <div class="box-footer">
+                    <a href="javascript:history.back();" class="btn btn-default">返回上一级</a>
+                    <button type="button" target-form="form-horizontal" class="btn btn-info pull-right ajax-post">保存</button>
+                </div>
+                <!-- /.box-footer -->
+            </form>
+        </div>
+        <div class="box box-primary">
+            <div class="box-header with-border">
+                <h3 class="box-title">注意事项</h3>
+            </div>
+            <div class="box-body">
+                <ol>
+                    <li>系统须支持shell_exec()方法（不支持Windows系统）</li>
+                    <li>使用前需要开启一个计划任务，需要每分钟调用一次任务脚本。格式如下：
+                        * * * * * /PHP所在路径/php /项目所在位置/public/index.php crontab/CronTask/index</li>
+
+                    <li>执行周期必须严格满足当前系统中Crontab的表达式</li>
+                    <li>最大执行次数不填写，默认为一直执行</li>
+                    <li>选择URL类型，格式如：http://xxxxx/index/xxx/xxx</li>
+                    <li>选择Shell类型，需要输入完整的shell命令</li>
+                </ol>
+            </div>
+        </div>
+        <!-- /.box -->
+    </div>
+</div>
+{/block}

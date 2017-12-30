@@ -127,6 +127,13 @@ class ComposerStaticInit94480c0aa72fd89be4b40dc7ed03bbce
     );
 
     public static $prefixesPsr0 = array (
+        'R' => 
+        array (
+            'Requests' => 
+            array (
+                0 => __DIR__ . '/..' . '/rmccue/requests/library',
+            ),
+        ),
         'P' => 
         array (
             'Prophecy\\' => 

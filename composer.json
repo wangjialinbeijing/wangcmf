@@ -25,7 +25,8 @@
         "topthink/think-mongo": "1.7",
         "topthink/think-captcha": "^1.0",
         "topthink/think-angular": "^1.0",
-        "mtdowling/cron-expression": "^1.2"
+        "mtdowling/cron-expression": "^1.2",
+        "rmccue/requests": "^1.7"
     },
     "extra": {
         "think-path": "thinkphp"

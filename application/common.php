@@ -129,6 +129,10 @@ if(!function_exists('is_admin'))
  */
 function time_format($unix_time , $format = 'Y-m-d H:i')
 {
+	if($unix_time == 0)
+	{
+		return '--';
+	}
 	return date($format , $unix_time);
 }
 
