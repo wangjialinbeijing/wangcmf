@@ -17,7 +17,7 @@ class Cron extends Admin
 	 */
 	public function index()
 	{
-		$list = Db::name('crontab')->paginate(10);
+		$list = Db::name('crontab')->order('id desc')->paginate(10);
 		$this->assign('_list' , $list);
 		return $this->fetch();
 	}
