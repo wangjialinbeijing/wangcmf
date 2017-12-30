@@ -67,4 +67,21 @@ class Cron extends Admin
 	{
 		return $this->setStatus(Db::name('crontab'));
 	}
+
+	/**
+	 * 日志列表
+	 * @return mixed
+	 * @throws \think\exception\DbException
+	 */
+	public function log_list()
+	{
+		$crontab_id = $this->request->param('id');
+		if(!$crontab_id)
+		{
+			$this->error('参数错误！');
+		}
+		$list = Db::name('crontab_log')->where(['crontab_id'=>$crontab_id])->paginate(20);
+		$this->assign('_list' , $list);
+		return $this->fetch();
+	}
 }

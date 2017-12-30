@@ -58,9 +58,9 @@
                             <p>结束：{$vo.end_time|time_format}</p>
                             <p>最后执行：{$vo.execute_time|time_format}</p>
                         </td>
-                        <td>{$vo.status|get_status_info}</td>
+                        <td>{$vo.status|get_cron_status_info}</td>
                         <td>
-                            <a href="{:url('edit',['id'=>$vo['id']])}">编辑</a>
+                            <a href="{:url('log_list',['id'=>$vo['id']])}">日志列表</a>
                             {if condition='$vo["status"] eq 0'}
                             <a class="ajax-get" href="javascript:;" url="{:url('setCronStatus',['id'=>$vo['id'],'status'=>1])}">启用</a>
                             {else/}

@@ -23,7 +23,7 @@ class Crontask extends Controller
 		config('app_trace', false); // 关闭 app_trace
 		// 只可以以cli方式执行
 		if (!$this->request->isCli()){
-//			$this->error('计划任务必须在命令行中执行');
+			$this->error('计划任务必须在命令行中执行');
 		}
 		// 初始化状态
 		$this->_config = [
@@ -52,7 +52,7 @@ class Crontask extends Controller
 			if ($now_time < $crontab['begin_time']) {   //任务未开始
 				continue;
 			}
-			if ($crontab['maximums'] && $crontab['executes'] > $crontab['maximums']) { // 任务超过最大执行次数，任务完成
+			if ($crontab['maximums'] && $crontab['executes'] >= $crontab['maximums']) { // 任务超过最大执行次数，任务完成
 				$update['status'] = $this->_config['COMPLETED'];
 			} else if ($crontab['end_time'] > 0 && $now_time > $crontab['end_time']) { // 任务已过期
 				$update['status'] = $this->_config['EXPIRED'];
@@ -70,6 +70,7 @@ class Crontask extends Controller
 					$is_execute = true;
 					// 允许执行的时候更新状态
 					$update['execute_time'] = $now_time;
+					$update['update_time'] = $now_time;
 					$update['executes'] = $crontab['executes'] + 1;
 					$update['status'] =
 						($crontab['maximums'] > 0 && $update['executes'] >= $crontab['maximums']) ?

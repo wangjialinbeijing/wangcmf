@@ -159,6 +159,56 @@ function get_status_info($status)
 	return $str;
 }
 
+
+/**
+ * 获取cron状态信息
+ * @param $status
+ * @return string
+ */
+function get_cron_status_info($status)
+{
+	$str = '';
+	switch(intval($status))
+	{
+		case -1 :
+			$str = '<span class="label label-danger">已删除</span>';
+			break;
+		case 1 :
+			$str = '<span class="label label-success">正常</span>';
+			break;
+		case 0 :
+			$str = '<span class="label label-danger">禁用</span>';
+			break;
+		case 2 :
+			$str = '<span class="label label-info">完成</span>';
+			break;
+		case 3 :
+			$str = '<span class="label label-danger">已过期</span>';
+			break;
+	}
+	return $str;
+}
+
+/**
+ * 获取cron（log）状态信息
+ * @param $status
+ * @return string
+ */
+function get_cronlog_status_info($status)
+{
+	$str = '';
+	switch(intval($status))
+	{
+		case 1 :
+			$str = '<span class="label label-success">成功</span>';
+			break;
+		case 0 :
+			$str = '<span class="label label-danger">失败</span>';
+			break;
+	}
+	return $str;
+}
+
 /**
  * 获取菜单的名称
  * @param $pid

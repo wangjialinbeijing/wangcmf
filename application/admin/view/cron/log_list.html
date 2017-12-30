@@ -1,0 +1,74 @@
+{extend name="basic:layout"}
+{block name="page_header"}
+计划任务管理
+{/block}
+{block name="page_header_small"}
+全部
+{/block}
+{block name="content"}
+<style>
+    /* 表格上下居中，修改bootstrap的默认样式 */
+    .table tbody tr td{
+        vertical-align: middle;
+    }
+</style>
+<!--表格开始-->
+<!-- left column -->
+<div class="row"><!--使用bootstrap的全局样式row-->
+    <div class="col-md-12"><!--使用bootstrap的全局样式col 控制box的宽度-->
+        <!-- general form elements -->
+        <div class="box">
+            <div class="box-header">
+                <h3 class="box-title">任务执行日志列表</h3>
+            </div>
+            <!-- /.box-header -->
+            <div class="box-body">
+                <table id="example1" class="table table-bordered table-striped">
+                    <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>任务名称</th>
+                        <th>任务类型</th>
+                        <th>任务ID</th>
+                        <th>日志备注</th>
+                        <th>时间</th>
+                        <th>状态</th>
+                    </tr>
+                    </thead>
+                    <tbody class="">
+                    {notempty name="_list"}
+                        {volist name="_list" id="vo"}
+                            <tr>
+                                <td>{$vo.id}</td>
+                                <td>{$vo.title} </td>
+                                <td>{$vo.type}</td>
+                                <td>{$vo.crontab_id}</td>
+                                <td>{$vo.remark}</td>
+                                <td>{$vo.create_time|time_format}</td>
+                                <td>{$vo.status|get_cronlog_status_info}</td>
+                            </tr>
+                        {/volist}
+                    {else /}
+                        <tr><td colspan="7" class="text-center">暂无数据</td></tr>
+                    {/notempty}
+                    </tbody>
+                    <tfoot>
+                    </tfoot>
+                </table>
+                <div class="row">
+                    <div class="col-md-6">
+
+                    </div>
+                    <div class="col-md-6" style="text-align: right;">
+                        <nav aria-label="Page navigation" class="">
+                            {$_list->render()}
+                        </nav>
+                    </div>
+                </div>
+            </div>
+            <!-- /.box-body -->
+        </div>
+        <!-- /.box -->
+    </div>
+</div>
+{/block}
