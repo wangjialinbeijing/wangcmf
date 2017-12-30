@@ -47,9 +47,8 @@
                         <td>{$vo.content}</td>
                         <td>{$vo.schedule}</td>
                         <td>
-                            <p>延迟执行秒：{$vo.sleep}</p>
-                            <p>最大执行次数：{$vo.maximums}</p>
-                            <p>已经执行次数：{$vo.executes}</td>
+                            <p>最大执行次数：<span style="font-weight:bold;color:red;">{$vo.maximums}</span></p>
+                            <p>已经执行次数：<span style="font-weight:bold;color:blue;">{$vo.executes}</span></td>
                         </td>
                         <td>
                             <p>创建：{$vo.create_time|time_format}</p>
