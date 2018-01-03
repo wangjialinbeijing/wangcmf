@@ -80,7 +80,6 @@ class Admin extends Controller
 	 * 获取控制器菜单数组,二级菜单元素位于一级菜单的'_child'元素中
 	 */
 	public function getMenus($controller=CONTROLLER_NAME){
-		$menus  =   session('ADMIN_MENU_LIST.'.$controller);
 		if(empty($menus)){
 			// 获取主菜单
 			$where['pid']   =   0;
@@ -141,13 +140,12 @@ class Admin extends Controller
 									}else{
 										$rule = $to_check_url;
 									}
-									if($auth->check($rule, USER_ID,null))
+									if($auth->check($rule, USER_ID))
 									{
 										$to_check_urls[] = $to_check_url;
 									}
 								}
 							}
-
 						}
 						// 按照分组生成子菜单树
 						foreach ($groups as $g) {
@@ -268,6 +266,7 @@ class Admin extends Controller
 			$temp['status']   = 1;
 			$data[strtolower($temp['name'].$temp['module'].$temp['type'])] = $temp;//去除重复项
 		}
+
 
 		$update = [];//保存需要更新的节点
 		$ids    = [];//保存需要删除的节点的id

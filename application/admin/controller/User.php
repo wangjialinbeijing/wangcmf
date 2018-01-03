@@ -1,6 +1,7 @@
 <?php
 namespace app\admin\controller;
 use think\Db;
+use app\admin\validate\User as UserValidate;
 
 /**
  * 用户控制器类
@@ -34,6 +35,7 @@ class User extends Admin
 			{
 				$this->error($validate->getError());
 			}
+			unset($data['password_confirm']);
 			// 数据写入
 			$data['status'] = 1;
 			$data['password'] = sys_md5($data['password']);
@@ -41,7 +43,7 @@ class User extends Admin
 			$insertId = Db::name('user')->insert($data);
 			if($insertId !== false)
 			{
-				$this->success('保存成功');
+				$this->success('保存成功' , url('user/index'));
 			}
 			$this->error('数据库操作失败');
 		}

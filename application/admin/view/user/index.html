@@ -40,13 +40,12 @@
                         <td>{$vo.update_time|time_format}</td>
                         <td>{$vo.status|get_status_info}</td>
                         <td>
-                            <a href="{:url('edit',['id'=>$vo['id']])}">授权</a>
                             {if condition='$vo["status"] eq 0'}
-                            <a class="ajax-get" href="javascript:;" url="{:url('setConfigStatus',['id'=>$vo['id'],'status'=>1])}">启用</a>
+                            <a class="ajax-get" href="javascript:;" url="{:url('setUserStatus',['id'=>$vo['id'],'status'=>1])}">启用</a>
                             {else/}
-                            <a class="ajax-get" href="javascript:;" url="{:url('setConfigStatus',['id'=>$vo['id'],'status'=>0])}">禁用</a>
+                            <a class="ajax-get" href="javascript:;" url="{:url('setUserStatus',['id'=>$vo['id'],'status'=>0])}">禁用</a>
                             {/if}
-                            <a class="ajax-get confirm" href="javascript:;" url="{:url('setConfigStatus',['id'=>$vo['id'],'status'=>-1])}">删除</a>
+                            <a class="ajax-get confirm" href="javascript:;" url="{:url('setUserStatus',['id'=>$vo['id'],'status'=>-1])}">删除</a>
                         </td>
                     </tr>
                     {/volist}

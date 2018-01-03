@@ -2,6 +2,7 @@
 namespace app\admin\controller;
 
 use app\admin\validate\AuthGroup;
+use Auth\Auth;
 use think\Db;
 
 /**
@@ -94,27 +95,29 @@ class AuthManager extends Admin
 	{
 		if($this->request->isPost())
 		{
-			$user_id = input('user_id');
-			$group_id = input('group_id');
+			$user_id = input('user_id');            // 获取用户id
+			$group_id = input('group_id');          // 获取权限角色分组id
 			if( empty($user_id) ){
 				$this->error('参数有误');
 			}
 			if(is_numeric($user_id)){
-				if (is_admin($user_id)) {
-					$this->error('该用户为超级管理员');
+				if (is_admin($user_id)) {           // 判断是否是超级管理员
+					$this->error('该用户为超级管理员');  // 超级管理员不需要授权
 				}
+				// 查询是否存在当前用户
 				if( !Db::name('user')->where(['id'=>$user_id])->find() ){
 					$this->error('用户不存在');
 				}
 			}
-
 			if($group_id)
 			{
+				// 查询是否存在当前分组
 				$group_info = Db::name('auth_group')->where(['id'=>$group_id])->find();
 				if(!$group_info)
 				{
 					$this->error('分组信息查询错误');
 				}
+				// 查询是否已经存在权限对应关系
 				$data = [];
 				$data['user_id'] = $user_id;
 				$data['group_id'] = $group_id;
@@ -123,8 +126,8 @@ class AuthManager extends Admin
 				{
 					$this->error('请勿重复添加');
 				}
+				// 新建用户——角色权限对应关系
 				$insertId = Db::name('auth_group_access')->insert($data);
-				print_r($insertId);
 				if($insertId !== false)
 				{
 					$this->success('添加成功');
@@ -160,6 +163,18 @@ class AuthManager extends Admin
 			->where( $map )
 			->field('id,id,title,rules')
 			->find();
+		$map = [];
+		$map['status'] = 1;
+		$map['type'] = 2;
+		$auth_rules = Db::name('auth_rule')->field('id,name,type')->where($map)->column('id' ,'name');
+		// 权限节点列表
+		$this->assign('first_rule_list' ,$auth_rules);
+		$map = [];
+		$map['status'] = 1;
+		$map['type'] = 1;
+		$auth_rules = Db::name('auth_rule')->field('id,name,type')->where($map)->column('id' ,'name');
+		// 权限节点列表
+		$this->assign('second_rule_list' ,$auth_rules);
 		// 节点列表
 		$this->assign('node_list' ,$this->returnMenuNodes());
 		// 当前分组权限节点列表
@@ -201,5 +216,20 @@ class AuthManager extends Admin
 	public function setGroupStatus()
 	{
 		return $this->setStatus(Db::name('auth_group'));
+	}
+
+	/**
+	 * 测试权限验证类
+	 */
+	public function auth_test()
+	{
+		$auth_rules = 'Admin/Index/index';      // 权限节点
+		$user_id = 3;                           // 用户ID
+		$auth = new Auth();                     // 实例化权限类
+		if($auth->check($auth_rules , $user_id))// 验证是否拥有权限
+		{
+			echo "用户id:{$user_id},拥有{$auth_rules}的权限";die;
+		}
+		echo "用户id:{$user_id},没有{$auth_rules}的权限";die;
 	}
 }
