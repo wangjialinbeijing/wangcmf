@@ -1,0 +1,35 @@
+<!-- Fixed navbar -->
+<nav class="navbar navbar-default ">
+    <div class="container">
+        <div class="navbar-header">
+            <!-- The mobile navbar-toggle button can be safely removed since you do not need it in a non-responsive implementation -->
+            <a class="navbar-brand" href="#">抢购</a>
+        </div>
+        <!-- Note that the .navbar-collapse and .collapse classes have been removed from the #navbar -->
+        <div id="navbar">
+            <ul class="nav navbar-nav">
+                <li ><a href="/">首页</a></li>
+            </ul>
+            <form action="{:url('index/index')}" method="get" class="navbar-form navbar-left">
+                <div class="form-group">
+                    <input type="text" name="keywords" class="form-control" placeholder="输入商品关键字">
+                </div>
+                <button type="submit" class="btn btn-default">搜索</button>
+            </form>
+            {if condition="!session('USER_ID')"}
+                <ul class="nav navbar-nav navbar-right">
+                    <li><a href="{:url('User/reg')}">注册</a></li>
+                    <li><a href="{:url('User/login')}">登录</a></li>
+                </ul>
+                {else/}
+                <ul class="nav navbar-nav navbar-right">
+                    <li><a href="/">{:session('USER_NAME')}</a></li>
+                    {if condition="session('USER_ID') == intval(config('USER_ADMIN'))"}
+                        <li><a href="{:url('Index/add')}">发布抢购商品</a></li>
+                    {/if}
+                    <li><a href="{:url('User/logout')}">注销登录</a></li>
+                </ul>
+            {/if}
+        </div><!--/.nav-collapse -->
+    </div>
+</nav>

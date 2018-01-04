@@ -1,0 +1,30 @@
+{extend name="Public:layout" /}
+{block name="container"}
+    <div class="row">
+        <div class="col-md-4"></div>
+        <div class="col-md-4">
+            <div class="page-header">用户注册</div>
+            <form action="{:url('reg')}" method="post">
+                <div class="form-group">
+                    <label for="">用户名</label>
+                    <input type="text" name="name" value="{:isset($data)?$data['name']:''}"  class="form-control" id="" placeholder="用户名">
+                </div>
+                <div class="form-group">
+                    <label for="">手机号</label>
+                    <input type="text" name="mobile" value="{:isset($data)?$data['mobile']:''}"  class="form-control" id="" placeholder="手机号">
+                </div>
+                <div class="form-group">
+                    <label for="">密码</label>
+                    <input type="password" name="password" class="form-control" id="" placeholder="密码">
+                </div>
+                <div class="form-group">
+                    <label for="">再次输入</label>
+                    <input type="password" name="repassword" class="form-control" id="" placeholder="再次输入密码">
+                </div>
+                <div>{$error_tips|default=''}</div>
+                <button type="submit" class="btn btn-default">用户注册</button>
+            </form>
+        </div>
+        <div class="col-md-4"></div>
+    </div>
+{/block}

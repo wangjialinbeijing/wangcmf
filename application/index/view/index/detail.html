@@ -1,0 +1,45 @@
+{extend name="Public:layout" /}
+{block name="container"}
+<div class="row">
+    <div class="col-md-2"></div>
+    <div class="col-md-8">
+        <div class="page-header">
+            <h2>{$info.name}</h2>
+        </div>
+
+        <div>
+            <div class="row">
+                <div class="col-md-6">
+                    <div>
+                        <image width="100%" src="{$info.image}"/>
+                    </div>
+                </div>
+                <div class="col-md-6" >
+                    <div style="padding:20px;font-size:20px;">售价：{$info.sell_price}</div>
+                    <div style="padding:20px;font-size:16px;">库存：<span id="goods_stock">{$info.stock}</span></div>
+                    <div style="padding:20px;">
+                        <a class="btn btn-danger" id="buynow">马上购买</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="page-header">
+            <h4>商品详情</h4>
+        </div>
+        <div>{$info.desc}</div>
+    </div>
+    <div class="col-md-2"></div>
+</div>
+{/block}
+
+{block name="script"}
+<script>
+    $(function(){
+        //马上购买
+        $('#buynow').click(function(){
+            alert(111);
+        })
+    })
+</script>
+{/block}

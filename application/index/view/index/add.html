@@ -1,0 +1,43 @@
+{extend name="Public:layout" /}
+{block name="container"}
+    <div class="row">
+        <div class="col-md-2"></div>
+        <div class="col-md-8">
+            <div class="page-header">
+                <h2>发布商品</h2>
+            </div>
+            <form action="{:url('add')}" method="post"  enctype="multipart/form-data" >
+                <div class="form-group">
+                    <label>商品名称</label>
+                    <input type="text" name="name" value=""  class="form-control"  placeholder="文章标题">
+                </div>
+                <div class="form-group">
+                    <label>商品价格</label>
+                    <input type="text" name="sell_price" value=""  class="form-control"  placeholder="0.00">
+                </div>
+                <div class="form-group">
+                    <label>商品库存</label>
+                    <input type="text" name="stock" value=""  class="form-control"  placeholder="库存不能少于0">
+                </div>
+                <div class="form-group">
+                    <label>商品图片</label>
+                    <input type='file'  name='image'>
+                </div>
+                <div class="form-group">
+                    <label>文章详情</label>
+                    <textarea id="desc" name="desc" style="width:100%; height:200px;"></textarea>
+                </div>
+                <div>{$error_tips|default=''}</div>
+                <button type="submit" class="btn btn-default">发布商品</button>
+            </form>
+        </div>
+        <div class="col-md-2"></div>
+    </div>
+{/block}
+
+{block name="script"}
+    <script src="__STATIC__/index/libs/ckeditor/ckeditor.js"></script>
+    <script>
+        CKEDITOR.replace('desc');
+    </script>
+{/block}
