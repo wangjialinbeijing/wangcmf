@@ -26,6 +26,21 @@ class Index extends Controller
 	}
 
 	/**
+	 * 订单列表
+	 * @return mixed
+	 */
+	public function order_list()
+	{
+		if(!session('USER_ID'))
+		{
+			$this->redirect(url('index/index'));
+		}
+		$map['user_id'] = session('USER_ID');
+		$this->assign('_list' , Db::name('orders')->where($map)->order('create_time desc')->select());
+		return $this->fetch();
+	}
+
+	/**
 	 * 商品列表
 	 * @return mixed
 	 */

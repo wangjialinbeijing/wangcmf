@@ -24,6 +24,7 @@
                 {else/}
                 <ul class="nav navbar-nav navbar-right">
                     <li><a href="/">{:session('USER_NAME')}</a></li>
+                    <li><a href="{:url('Index/order_list')}">我的订单</a></li>
                     {if condition="session('USER_ID') == intval(config('USER_ADMIN'))"}
                         <li><a href="{:url('Index/add')}">发布抢购商品</a></li>
                     {/if}

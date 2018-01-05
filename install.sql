@@ -24,7 +24,8 @@ INSERT INTO `db_auth_group` (`id`, `module`, `type`, `title`, `description`, `st
 (1,	'admin',	1,	'默认用户组',	'系统默认的用户角色组',	1,	'1,2,7,8,9,10,11,12,13,14,15,16,17,18,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,63,64,65,66,67,68,69,70,71,72,73,74,96,124'),
 (4,	'admin',	1,	'访问者',	'只能查看，无法进行新增、编辑和删除操作',	1,	''),
 (2,	'admin',	1,	'测试用户',	'测试用户',	1,	'1,2,5,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,56,57,58,59,60,61,62,63,64,65,66,67,68,69,70,71,72,73,74,79,80,82,83,84,88,89,90,91,92,93,96,97,100,102,103,195'),
-(3,	'admin',	1,	'自定义权限分组',	'管理员新增的权限分组',	1,	'1,16,17,18,27,28,108,109,124,128');
+(3,	'admin',	1,	'自定义权限分组',	'管理员新增的权限分组',	1,	'1,16,17,18,27,28,108,109,124,128'),
+(5,	'admin',	1,	'权限测试',	'测试权限系统是否正常运行',	1,	'1,3,26,88,220');
 
 DROP TABLE IF EXISTS `db_auth_group_access`;
 CREATE TABLE `db_auth_group_access` (
@@ -38,7 +39,9 @@ CREATE TABLE `db_auth_group_access` (
 TRUNCATE `db_auth_group_access`;
 INSERT INTO `db_auth_group_access` (`user_id`, `group_id`) VALUES
 (1,	1),
-(2,	1);
+(2,	1),
+(3,	1),
+(5,	5);
 
 DROP TABLE IF EXISTS `db_auth_rule`;
 CREATE TABLE `db_auth_rule` (
@@ -159,8 +162,8 @@ INSERT INTO `db_auth_rule` (`id`, `module`, `type`, `name`, `title`, `status`, `
 (105,	'admin',	1,	'Admin/Think/lists?model=download',	'下载管理',	-1,	''),
 (106,	'admin',	1,	'Admin/Think/lists?model=config',	'配置管理',	-1,	''),
 (107,	'admin',	1,	'Admin/Action/actionlog',	'行为日志',	-1,	''),
-(108,	'admin',	1,	'admin/User/updatePassword',	'修改密码',	1,	''),
-(109,	'admin',	1,	'admin/User/updateNickname',	'修改昵称',	1,	''),
+(108,	'admin',	1,	'admin/User/updatePassword',	'修改密码',	-1,	''),
+(109,	'admin',	1,	'admin/User/updateNickname',	'修改昵称',	-1,	''),
 (110,	'admin',	1,	'admin/action/edit',	'查看行为日志',	1,	''),
 (205,	'admin',	1,	'admin/think/add',	'新增数据',	1,	''),
 (111,	'admin',	2,	'Admin/article/index',	'文档列表',	-1,	''),
@@ -271,7 +274,8 @@ INSERT INTO `db_auth_rule` (`id`, `module`, `type`, `name`, `title`, `status`, `
 (217,	'admin',	1,	'admin/article/index',	'文档列表',	1,	''),
 (218,	'admin',	1,	'admin/AuthManager/groupmanage',	'访问授权',	1,	''),
 (219,	'admin',	1,	'admin/think/lists',	'数据列表',	1,	''),
-(220,	'admin',	1,	'admin/Index/index',	'测试',	1,	'');
+(220,	'admin',	1,	'admin/Index/index',	'测试',	1,	''),
+(221,	'admin',	1,	'admin/Cron/index',	'任务列表',	1,	'');
 
 SET NAMES utf8mb4;
 
@@ -336,6 +340,26 @@ TRUNCATE `db_crontab_log`;
 INSERT INTO `db_crontab_log` (`id`, `type`, `crontab_id`, `title`, `remark`, `create_time`, `update_time`, `status`) VALUES
 (1,	'shell',	1,	'test',	'ϵͳ?Ҳ???ָ????·????\n',	1514601498,	0,	1),
 (2,	'url',	1,	'test',	'http://www.baidu.com 请求成功，HTTP状态码: 200',	1514601569,	0,	1);
+
+DROP TABLE IF EXISTS `db_goods`;
+CREATE TABLE `db_goods` (
+  `id` int(4) NOT NULL AUTO_INCREMENT COMMENT '主键自增长',
+  `name` varchar(255) NOT NULL COMMENT '商品名称',
+  `image` varchar(255) NOT NULL COMMENT '商品图片',
+  `desc` text NOT NULL COMMENT '商品简介',
+  `sell_price` decimal(12,2) NOT NULL COMMENT '商品销售价格',
+  `stock` int(10) NOT NULL COMMENT '商品库存',
+  `user_id` int(10) NOT NULL COMMENT '商品发布用户',
+  `status` tinyint(1) NOT NULL COMMENT '商品状态',
+  `create_time` int(10) NOT NULL COMMENT '商品发布时间',
+  `update_time` int(10) NOT NULL COMMENT '商品更新时间',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+TRUNCATE `db_goods`;
+INSERT INTO `db_goods` (`id`, `name`, `image`, `desc`, `sell_price`, `stock`, `user_id`, `status`, `create_time`, `update_time`) VALUES
+(2,	'测试抢购商品',	'/uploads/20180104\\605bcc37453380edf540a53f211e400d.jpg',	'<p>1212121212</p>',	99.00,	99,	1,	1,	1515047344,	0),
+(3,	'imacpro',	'/uploads/20180104\\4b8b3173e5c4dd9a1102bd6a9e221070.jpg',	'<p>12121212</p>',	10.00,	93,	1,	1,	1515047505,	0);
 
 DROP TABLE IF EXISTS `db_menu`;
 CREATE TABLE `db_menu` (
@@ -444,8 +468,6 @@ INSERT INTO `db_menu` (`id`, `title`, `pid`, `sort`, `url`, `hide`, `tip`, `grou
 (92,	'删除',	90,	0,	'Database/del',	0,	'删除备份文件',	'',	0,	1,	0),
 (96,	'新增',	75,	0,	'Menu/add',	0,	'',	'系统设置',	0,	1,	0),
 (98,	'编辑',	75,	0,	'Menu/edit',	0,	'',	'',	0,	1,	0),
-(108,	'修改密码',	16,	0,	'User/updatePassword',	0,	'',	'',	0,	1,	0),
-(109,	'修改昵称',	16,	0,	'User/updateNickname',	0,	'',	'',	0,	1,	0),
 (110,	'查看行为日志',	106,	0,	'action/edit',	0,	'',	'',	0,	1,	0),
 (112,	'新增数据',	58,	0,	'think/add',	0,	'',	'',	0,	1,	0),
 (113,	'编辑数据',	58,	0,	'think/edit',	0,	'',	'',	0,	1,	0),
@@ -460,6 +482,26 @@ INSERT INTO `db_menu` (`id`, `title`, `pid`, `sort`, `url`, `hide`, `tip`, `grou
 (122,	'数据列表',	58,	0,	'think/lists',	0,	'',	'',	0,	1,	0),
 (123,	'审核列表',	3,	0,	'Article/examine',	0,	'',	'',	0,	1,	0),
 (124,	'测试',	1,	0,	'Index/index',	0,	'',	'首页设置',	0,	1,	0);
+
+DROP TABLE IF EXISTS `db_orders`;
+CREATE TABLE `db_orders` (
+  `id` int(4) NOT NULL AUTO_INCREMENT COMMENT '订单id，主键自增长',
+  `goods_id` int(10) NOT NULL COMMENT '商品id，一个订单对应一个商品',
+  `user_id` int(10) NOT NULL COMMENT '用户id',
+  `order_no` varchar(255) NOT NULL COMMENT '订单订单号',
+  `pay_price` decimal(12,2) NOT NULL COMMENT '实际支付价格',
+  `is_pay` tinyint(1) NOT NULL COMMENT '是否已经支付，0：未支付，1：已支付',
+  `pay_time` int(10) NOT NULL COMMENT '支付时间',
+  `status` tinyint(1) NOT NULL COMMENT '状态',
+  `create_time` int(10) NOT NULL COMMENT '新增时间',
+  `update_time` int(10) NOT NULL COMMENT '更新时间',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+TRUNCATE `db_orders`;
+INSERT INTO `db_orders` (`id`, `goods_id`, `user_id`, `order_no`, `pay_price`, `is_pay`, `pay_time`, `status`, `create_time`, `update_time`) VALUES
+(8,	3,	1,	'2018010506442971124',	10.00,	1,	1515134669,	1,	1515134669,	0),
+(9,	2,	1,	'2018010506571142712',	99.00,	1,	1515135431,	1,	1515135431,	0);
 
 DROP TABLE IF EXISTS `db_user`;
 CREATE TABLE `db_user` (
@@ -478,6 +520,10 @@ CREATE TABLE `db_user` (
 TRUNCATE `db_user`;
 INSERT INTO `db_user` (`id`, `name`, `status`, `create_time`, `update_time`, `type`, `mobile`, `password`) VALUES
 (1,	'wangjialin',	1,	0,	0,	0,	'13511112222',	'14e1b600b1fd579f47433b88e8d85291'),
-(2,	'wangjialin2',	1,	0,	0,	0,	'13521354092',	'14e1b600b1fd579f47433b88e8d85291');
+(2,	'wangjialin2',	1,	0,	0,	0,	'13521354092',	'14e1b600b1fd579f47433b88e8d85291'),
+(3,	'wangjialin_confirm',	1,	1514852949,	0,	0,	'13511112223',	'9db06bcff9248837f86d1a6bcf41c9e7'),
+(4,	'wangcmf',	1,	1514854166,	0,	0,	'13511112224',	'9db06bcff9248837f86d1a6bcf41c9e7'),
+(5,	'authtest',	1,	1514861118,	0,	1,	'13511112229',	'9db06bcff9248837f86d1a6bcf41c9e7'),
+(6,	'wangjialin_index',	1,	1515045863,	0,	0,	'13511112210',	'9db06bcff9248837f86d1a6bcf41c9e7');
 
--- 2017-12-30 06:16:58
+-- 2018-01-05 07:01:42

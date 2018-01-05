@@ -30,7 +30,12 @@ $redis->subscribe(['task_queue'], function($redis,$chan,$msg){
 			$pdo->setAttribute(PDO::ATTR_AUTOCOMMIT, false);
 			try {
 				$pdo->beginTransaction(); // 开启一个事务
-				$row = null;
+
+				// 已经处理完毕
+				$new_redis = new \Redis();
+				$new_redis->connect('127.0.0.1',6379);
+				$new_redis->hSet('goods_'.$task['goods_id'] , $task['goods_id'].'_'.$task['user_id'] , 1);
+
 				// 查询商品是否还有库存
 				$sql = "select * from db_goods where id = {$task['goods_id']} and stock > 0 and status = 1";
 				$goods_info = [];
@@ -44,6 +49,7 @@ $redis->subscribe(['task_queue'], function($redis,$chan,$msg){
 					$pdo->rollback();
 					return false;
 				}
+
 				// 查询是否已经下过单
 				$sql = "select * from db_orders where user_id={$task['user_id']} and goods_id = {$task['goods_id']} and status = 1 and is_pay = 1";
 				$result = [];
