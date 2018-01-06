@@ -35,6 +35,10 @@ class Crontask extends Controller
 		];
 	}
 
+	/**
+	 * 定时任务执行方法
+	 * @return bool
+	 */
 	public function index()
 	{
 		// 查询所有的任务列表
@@ -45,6 +49,7 @@ class Crontask extends Controller
 			return false;
 		}
 		$now_time = time();
+		// 遍历所有的任务记录
 		foreach($crontab_list as $key=>$crontab)
 		{
 			$is_execute = false;   // 是否执行
@@ -57,7 +62,7 @@ class Crontask extends Controller
 			} else if ($crontab['end_time'] > 0 && $now_time > $crontab['end_time']) { // 任务已过期
 				$update['status'] = $this->_config['EXPIRED'];
 			} else {
-				// 创建计划任务对象
+				// 创建计划任务对象，并传入时间表达式
 				$cron = CronExpression::factory($crontab['schedule']);
 				/*
 				 * 根据当前时间判断是否该应该执行
@@ -92,8 +97,9 @@ class Crontask extends Controller
 
 			// 执行计划任务操作
 			try{
-				//
+				// 判断任务类型
 				switch ($crontab['type']) {
+					// 请求URL
 					case 'url':
 						if (substr($crontab['content'], 0, 1) == "/") {// 本地项目URL
 							$request = shell_exec('php ' . ROOT_PATH . 'index.php ' . $crontab['content'] . ' 2>&1');
@@ -122,6 +128,7 @@ class Crontask extends Controller
 			}
 			catch (\Exception $e)
 			{
+				// 记录异常
 				$this->saveLog($crontab['type'], $crontab['id'], $crontab['title'], 0, "执行的内容发生异常:\r\n" . $e->getMessage());
 			}
 		}
