@@ -76,7 +76,6 @@ class Cron extends Admin
 	/**
 	 * 日志列表
 	 * @return mixed
-	 * @throws \think\exception\DbException
 	 */
 	public function log_list()
 	{
@@ -87,6 +86,7 @@ class Cron extends Admin
 		}
 		$list = Db::name('crontab_log')->where(['crontab_id'=>$crontab_id])->paginate(20);
 		$this->assign('_list' , $list);
+		$this->assign('active_url' , 'Cron/index');
 		return $this->fetch();
 	}
 }

@@ -13,6 +13,10 @@ use think\Exception;
  */
 class Crontask extends Controller
 {
+	/**
+	 * 初始化配置列表
+	 * @var array
+	 */
 	private $_config = [];
 	/**
 	 * 初始化方法
@@ -64,12 +68,6 @@ class Crontask extends Controller
 			} else {
 				// 创建计划任务对象，并传入时间表达式
 				$cron = CronExpression::factory($crontab['schedule']);
-				/*
-				 * 根据当前时间判断是否该应该执行
-				 * 这个判断和秒数无关，其最小单位为分
-				 * 也就是说，如果处于该执行的这个分钟内如果多次调用都会判定为真
-				 * 所以我们在服务器上设置的定时任务最小单位应该是分
-				 */
 				if ($cron->isDue()) {
 					// 允许执行
 					$is_execute = true;
@@ -134,7 +132,14 @@ class Crontask extends Controller
 		}
 	}
 
-	// 保存运行日志
+	/**
+	 * 保存运行日志
+	 * @param $type 任务类型 url：url，shell：命令行
+	 * @param $crontab_id 任务id
+	 * @param $title 日志名称
+	 * @param $status 日志状态 0:失败，1：成功
+	 * @param string $remark 日志详情
+	 */
 	private function saveLog($type, $crontab_id, $title, $status, $remark = '')
 	{
 		$data['type'] = $type;
