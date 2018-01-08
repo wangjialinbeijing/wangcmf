@@ -519,11 +519,6 @@ CREATE TABLE `db_user` (
 
 TRUNCATE `db_user`;
 INSERT INTO `db_user` (`id`, `name`, `status`, `create_time`, `update_time`, `type`, `mobile`, `password`) VALUES
-(1,	'wangjialin',	1,	0,	0,	0,	'13511112222',	'14e1b600b1fd579f47433b88e8d85291'),
-(2,	'wangjialin2',	1,	0,	0,	0,	'13521354092',	'14e1b600b1fd579f47433b88e8d85291'),
-(3,	'wangjialin_confirm',	1,	1514852949,	0,	0,	'13511112223',	'9db06bcff9248837f86d1a6bcf41c9e7'),
-(4,	'wangcmf',	1,	1514854166,	0,	0,	'13511112224',	'9db06bcff9248837f86d1a6bcf41c9e7'),
-(5,	'authtest',	1,	1514861118,	0,	1,	'13511112229',	'9db06bcff9248837f86d1a6bcf41c9e7'),
-(6,	'wangjialin_index',	1,	1515045863,	0,	0,	'13511112210',	'9db06bcff9248837f86d1a6bcf41c9e7');
+(1,	'wangjialin',	1,	0,	0,	0,	'13511112222',	'14e1b600b1fd579f47433b88e8d85291');
 
 -- 2018-01-05 07:01:42
