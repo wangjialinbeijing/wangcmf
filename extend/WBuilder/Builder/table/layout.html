@@ -1,0 +1,90 @@
+{extend name="basic:layout"}
+{block name="page_header"}
+    {$page_header|default=''}
+{/block}
+{block name="page_header_small"}
+    {$page_header_small|default='全部'}
+{/block}
+{block name="content"}
+<!-- css引入 -->
+{notempty name="css_list"}
+    {volist name="css_list" id="vo"}
+        <link rel="stylesheet" href="{$m_css_path}/{$vo}.css">
+    {/volist}
+{/notempty}
+
+<!--表格开始-->
+<!-- left column -->
+<div class="row"><!--使用bootstrap的全局样式row-->
+    <div class="col-md-12"><!--使用bootstrap的全局样式col 控制box的宽度-->
+        <!-- general form elements -->
+        <div class="box">
+            <div class="box-header">
+                <h3 class="box-title">{$page_title}</h3>
+            </div>
+            <!-- /.box-header -->
+            <div class="box-body">
+                <table id="example1" class="table table-bordered table-striped">
+                    <thead>
+                        <tr>
+                            {volist name="columns" id="column"}
+                                <th>{$column.title}</th>
+                            {/volist}
+                            {notempty name="right_buttons"}
+                                <th>操作</th>
+                            {/notempty}
+                        </tr>
+                    </thead>
+                    <tbody class="">
+                    {volist name='data_list' id='data'}
+                        <tr>
+
+                            {volist name="columns" id="column"}
+                                <td>
+                                    {$data[$column['name']]|default=''}
+                                </td>
+
+                            {/volist}
+                            <!--右侧按钮-->
+                            {if condition='$data["right_button"]'}
+                            <td>
+                                {$data['right_button']|default=''}
+                            </td>
+                            {/if}
+                        </tr>
+                    {/volist}
+                    </tbody>
+                    <tfoot>
+                    </tfoot>
+                </table>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div style="margin-top:20px;">
+                            {notempty name="bottom_btns"}
+                                <!--todo::-->
+                                <a href="{:url('add')}" class="btn btn-info">新增</a>
+                            {/notempty}
+                        </div>
+                    </div>
+                    <!--分页-->
+                    <div class="col-md-6" style="text-align: right;">
+                        <nav aria-label="Page navigation" class="">
+                            {$pages}
+                        </nav>
+                    </div>
+                </div>
+            </div>
+            <!-- /.box-body -->
+        </div>
+        <!-- /.box -->
+    </div>
+</div>
+{/block}
+{block name="script"}
+    <!-- js引入 -->
+    {notempty name='js_list'}
+        {volist name="js_list" id="vo"}
+            <script src="{$m_js_path}/{$vo}.js"></script>
+        {/volist}
+    {/notempty}
+{/block}

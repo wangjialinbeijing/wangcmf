@@ -1,18 +1,21 @@
 <?php
 namespace WBuilder;
 
+use app\common\controller\Config;
+use Auth\Auth;
 use think\Controller;
 
+
+/**
+ * 表单、表格构建器基类
+ * Class WBuilder
+ * @package WBuilder
+ */
 class WBuilder extends Controller
 {
 
 	// 模板置换变量
 	protected static $vars = [];
-
-	public function _initialize()
-	{
-		parent::_initialize();
-	}
 
 	/**
 	 * 构建器创建方法

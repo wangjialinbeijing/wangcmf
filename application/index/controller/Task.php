@@ -3,8 +3,6 @@ namespace app\index\controller;
 
 use think\Controller;
 use think\Db;
-use think\queue\job\Redis;
-
 /*
  * 发布订阅消息模块
  */
