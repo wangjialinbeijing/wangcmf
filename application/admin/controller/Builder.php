@@ -14,8 +14,13 @@ class Builder extends Admin
 	{
 		// 查询数据列表对象
 		$list = Db::name('user')->paginate(3);
+		$bottom_btns = [
+			['title' => '新增','url'=>url('add')],
+			['title' => '返回','url'=>url('index')],
+		];
 		return WBuilder::make('table')
 			->setPageHeader('用户列表')
+			->setBottomBtns($bottom_btns) // 设置底部按钮
 			->setPageHeaderSmall('所有用户')
 			->setPageTitle('构建器：用户管理')
 			->addColumn('id' , 'ID')

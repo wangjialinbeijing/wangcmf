@@ -50,7 +50,7 @@ class Builder extends WBuilder
 		'right_buttons'      => [],       // 表格右侧按钮
 		'columns'            => [],       // 表格列集合
 		'pages'              => '',       // 分页数据
-		'data_list'           => [],       // 表格数据列表
+		'data_list'          => [],       // 表格数据列表
 		'_page_info'         => '',       // 分页信息
 		'primary_key'        => 'id',     // 表格主键名称
 		'_table'             => '',       // 表名
@@ -62,12 +62,12 @@ class Builder extends WBuilder
 		'search_form_info'   => [],       // 搜索表单数据
 		'search_form_text'   => [],       // input输入框
 		'search_form_date'   => [],       // date日期输入框
-		'search_form_select'   => [],     // select下拉框
-		'page_header'       => '',        // 页面标题
-		'page_header_small' => '',        // 页面副标题
-		'm_js_path' => '',
-		'm_css_path' => '',
-		'bottom_btns' => [],              // 表格底部按钮
+		'search_form_select' => [],     // select下拉框
+		'page_header'        => '',        // 页面标题
+		'page_header_small'  => '',        // 页面副标题
+		'm_js_path'          => '',
+		'm_css_path'         => '',
+		'bottom_btns'        => [],              // 表格底部按钮
 	];
 
 	/**
@@ -77,17 +77,17 @@ class Builder extends WBuilder
 	{
 		parent::_initialize();
 		// 获取当前的模块控制器信息
-		$this->_module     = $this->request->module(); // 模块名
+		$this->_module = $this->request->module(); // 模块名
 		$this->_controller = $this->request->controller(); // 控制器名
-		$this->_action     = $this->request->action(); // 方法
-		$this->_table_name = strtolower($this->_module.'_'.trim(preg_replace("/[A-Z]/", "_\\0", $this->_controller), "_"));
+		$this->_action = $this->request->action(); // 方法
+		$this->_table_name = strtolower($this->_module . '_' . trim(preg_replace("/[A-Z]/", "_\\0", $this->_controller), "_"));
 		// 表格构建器的模板位置
-		$this->_template   = ROOT_PATH. 'extend/WBuilder/builder/table/layout.html';
+		$this->_template = ROOT_PATH . 'extend/WBuilder/builder/table/layout.html';
 
 		// 定义静态文件夹位置
-		define('__STATIC__' ,'/static');
-		$this->_vars['m_js_path'] = __STATIC__ . '/' .$this->_module . '/js';
-		$this->_vars['m_css_path'] = __STATIC__ . '/' .$this->_module . '/css';
+		define('__STATIC__', '/static');
+		$this->_vars['m_js_path'] = __STATIC__ . '/' . $this->_module . '/js';
+		$this->_vars['m_css_path'] = __STATIC__ . '/' . $this->_module . '/css';
 	}
 
 	/**
@@ -121,7 +121,7 @@ class Builder extends WBuilder
 	 * @param array $attribute
 	 * @return $this
 	 */
-	public function addRightButton( $type = '' , $attribute = [])
+	public function addRightButton($type = '', $attribute = [])
 	{
 		// 定义按钮的属性
 		$btn_attribute = [];
@@ -134,9 +134,9 @@ class Builder extends WBuilder
 					'title' => '编辑',
 					'class' => '',
 					'href'  => url(
-						$this->_module.'/'.$this->_controller.'/edit',
+						$this->_module . '/' . $this->_controller . '/edit',
 						[
-							'id'  => '__id__'
+							'id' => '__id__'
 						]
 					)
 				];
@@ -148,9 +148,9 @@ class Builder extends WBuilder
 					'type'  => 'status',
 					'title' => '状态',
 					'class' => 'ajax-get',
-					'href'  => url($this->_module.'/'.$this->_controller.'/setStatus',
+					'href'  => url($this->_module . '/' . $this->_controller . '/setStatus',
 						[
-							'id'   => '__id__'
+							'id' => '__id__'
 						]
 					),
 				];
@@ -163,9 +163,9 @@ class Builder extends WBuilder
 					'title' => '删除',
 					'class' => 'ajax-get confirm',
 					'href'  => url(
-						$this->_module.'/'.$this->_controller.'/setStatus',
+						$this->_module . '/' . $this->_controller . '/setStatus',
 						[
-							'id'   => '__id__',
+							'id'     => '__id__',
 							'status' => -1
 						]
 					)
@@ -179,7 +179,7 @@ class Builder extends WBuilder
 					'type'  => 'custom',
 					'title' => isset($attribute['title']) ? $attribute['title'] : '未定义',
 					'class' => isset($attribute['class']) ? $attribute['class'] : '',
-					'href'  => isset($attribute['href']) ? $attribute['href']:'javasript:;',
+					'href'  => isset($attribute['href']) ? $attribute['href'] : 'javasript:;',
 				];
 				break;
 			default:
@@ -205,7 +205,7 @@ class Builder extends WBuilder
 					// 处理主键变量值
 					$button['href'] = preg_replace(
 						'/__id__/i',
-						$row[$this->_vars['primary_key']],
+						$row[ $this->_vars['primary_key'] ],
 						$button['href']
 					);
 
@@ -213,11 +213,11 @@ class Builder extends WBuilder
 					if (preg_match_all('/__(.*?)__/', $button['href'], $matches)) {
 						// 要替换的字段名
 						$replace_to = [];
-						$pattern    = [];
+						$pattern = [];
 						foreach ($matches[1] as $match) {
-							if (isset($row[$match])) {
-								$pattern[]    = '/__'. $match .'__/i';
-								$replace_to[] = $row[$match];
+							if (isset($row[ $match ])) {
+								$pattern[] = '/__' . $match . '__/i';
+								$replace_to[] = $row[ $match ];
 							}
 						}
 						$button['href'] = preg_replace(
@@ -227,42 +227,38 @@ class Builder extends WBuilder
 						);
 					}
 					// 判断右侧按钮是否是启用/禁用状态
-					if($button['type'] == 'status')
-					{
-						if($row['status'] == 0)
-						{
+					if ($button['type'] == 'status') {
+						if ($row['status'] == 0) {
 							$button['title'] = '启用';
-							$button['href'] = $button['href'] .'?status=1';
+							$button['href'] = $button['href'] . '?status=1';
 						}
-						if($row['status'] == 1)
-						{
+						if ($row['status'] == 1) {
 							$button['title'] = '禁用';
-							$button['href'] = $button['href'] .'?status=0';
+							$button['href'] = $button['href'] . '?status=0';
 						}
 					}
-					$row['right_button'] .= '<a class="'.$button['class'].'" href="'.$button['href'].'">'.$button['title'].'</a>&nbsp;';
+					$row['right_button'] .= '<a class="' . $button['class'] . '" href="' . $button['href'] . '">' . $button['title'] . '</a>&nbsp;';
 				}
 
 			}
 			// 编译单元格数据类型
-			if ($this->_vars['columns'])
-			{
+			if ($this->_vars['columns']) {
 				foreach ($this->_vars['columns'] as $column) {
 					// 备份原数据
-					if (isset($row[$column['name']])) {
-						$row['__'.$column['name'].'__'] = $row[$column['name']];
+					if (isset($row[ $column['name'] ])) {
+						$row[ '__' . $column['name'] . '__' ] = $row[ $column['name'] ];
 					}
 
 					switch ($column['type']) {
 						case 'status': // 状态
-							switch ($row[$column['name']]) {
+							switch ($row[ $column['name'] ]) {
 								case '0': // 禁用
 									$info = isset($column['param'][0]) ? $column['param'][0] : '禁用';
-									$row[$column['name']] = '<span class="label label-warning">'.$this->replaceFields($info , $row).'</span>';
+									$row[ $column['name'] ] = '<span class="label label-warning">' . $this->replaceFields($info, $row) . '</span>';
 									break;
 								case '1': // 启用
 									$info = isset($column['param'][1]) ? $column['param'][1] : '启用';
-									$row[$column['name']] = '<span class="label label-success">'.$this->replaceFields($info , $row).'</span>';
+									$row[ $column['name'] ] = '<span class="label label-success">' . $this->replaceFields($info, $row) . '</span>';
 									break;
 							}
 							break;
@@ -271,8 +267,7 @@ class Builder extends WBuilder
 						case 'date': // 时间
 							// 默认格式
 							$format = 'Y-m-d H:i';
-							switch($column['type'])
-							{
+							switch ($column['type']) {
 								case 'date':
 									$format = 'Y-m-d';
 									break;
@@ -285,34 +280,34 @@ class Builder extends WBuilder
 							}
 							// 格式
 							$format = $column['param'] == '' ? $format : $column['param'];
-							if ($row[$column['name']] == '') {
-								$row[$column['name']] = $column['default'];
+							if ($row[ $column['name'] ] == '') {
+								$row[ $column['name'] ] = $column['default'];
 							} else {
-								$row[$column['name']] = date($format , $row[$column['name']]);
+								$row[ $column['name'] ] = date($format, $row[ $column['name'] ]);
 							}
 							break;
 						case 'picture': // 单张图片
-							$row[$column['name']] = '<a href="'.($row[$column['name']]).'" target="_blank" title="'.($row[$column['name']]).'"><img style="width:100px;" class="" src="'.($row[$column['name']]).'"></a>';
+							$row[ $column['name'] ] = '<a href="' . ($row[ $column['name'] ]) . '" target="_blank" title="' . ($row[ $column['name'] ]) . '"><img style="width:100px;" class="" src="' . ($row[ $column['name'] ]) . '"></a>';
 							break;
 
 						case 'callback': // 调用回调方法
 							if ($column['param'] == '') {
-								$params = [$row[$column['name']]];
+								$params = [$row[ $column['name'] ]];
 							} else if ($column['param'] === '__data__') {
-								$params = [$row[$column['name']], $row];
+								$params = [$row[ $column['name'] ], $row];
 							} else {
-								$params = [$row[$column['name']], $column['param']];
+								$params = [$row[ $column['name'] ], $column['param']];
 							}
 							// 调用回调方法
-							$row[$column['name']] = call_user_func_array($column['default'], $params);
+							$row[ $column['name'] ] = call_user_func_array($column['default'], $params);
 							break;
 						default: // 默认文本
-							if (!isset($row[$column['name']]) && !empty($column['default'])) {
-								$row[$column['name']] = $column['default'];
+							if (!isset($row[ $column['name'] ]) && !empty($column['default'])) {
+								$row[ $column['name'] ] = $column['default'];
 							}
 							if (!empty($column['param'])) {
-								if (isset($column['param'][$row[$column['name']]])) {
-									$row[$column['name']] = $column['param'][$row[$column['name']]];
+								if (isset($column['param'][ $row[ $column['name'] ] ])) {
+									$row[ $column['name'] ] = $column['param'][ $row[ $column['name'] ] ];
 								}
 							}
 					}
@@ -350,13 +345,27 @@ class Builder extends WBuilder
 
 	/**
 	 * 设置页面全局标题
-	 * @param string $page_header 全局标题
+	 * @param string $page_header_small 全局标题
 	 * @return $this
 	 */
 	public function setPageHeaderSmall($page_header_small = '')
 	{
 		if ($page_header_small != '') {
 			$this->_vars['page_header_small'] = $page_header_small;
+		}
+		return $this;
+	}
+
+	/**
+	 * 设置表格底部的按钮
+	 * @param array $btns
+	 * @return $this
+	 */
+	public function setBottomBtns($btns = [])
+	{
+		if(!empty($btns))
+		{
+			$this->_vars['bottom_btns'] = $btns;
 		}
 		return $this;
 	}
