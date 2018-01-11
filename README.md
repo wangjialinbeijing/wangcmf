@@ -30,3 +30,8 @@ WangCMF是一个基于ThinkPHP5开发的CMF(内容管理框架)，为了方便�
 * https://github.com/almasaeed2010/AdminLTE
 * https://github.com/antirez/redis
 * https://ckeditor.com/
+
+## 开发者信息
+
+王甲临 wangjialin.bj@gmail.com
+个人博客：<a href='https://wangjialinbeijing.github.io'>wangjialinbeijing.github.io</a>

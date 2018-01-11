@@ -1,10 +1,14 @@
 {extend name="basic:layout"}
 {block name="page_header"}
-标题
+框架简介
 {/block}
 {block name="page_header_small"}
-副标题
+
 {/block}
 {block name="content"}
-    显示表单、列表等
+<div class="row">
+    <div class="col-md-12" style="width: 800px;">
+        {$content}
+    </div>
+</div>
 {/block}
