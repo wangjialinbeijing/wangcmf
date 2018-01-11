@@ -10,6 +10,9 @@ use think\Db;
  */
 class Index extends Controller
 {
+	/**
+	 * 初始化方法
+	 */
 	protected function _initialize()
 	{
 		parent::_initialize();
@@ -46,7 +49,9 @@ class Index extends Controller
 	 */
     public function index()
     {
+    	// 查询条件
     	$map['status'] = 1;
+    	// 商品列表（分页）
     	$this->assign('_list' , Db::name('goods')->where($map)->paginate(6));
 		return $this->fetch();
     }
@@ -57,12 +62,14 @@ class Index extends Controller
 	 */
     public function detail()
     {
+    	// 根据商品id查询详情
     	$map['id'] = input('id');
 	    $info = Db::name('goods')->where($map)->find();
 	    if(!$info)
 	    {
 	    	$this->error('参数错误！');
 	    }
+	    // 商品信息变量置换
 	    $this->assign('info' , $info);
 	    return $this->fetch();
     }
@@ -73,15 +80,19 @@ class Index extends Controller
 	 */
 	public function add()
 	{
+		// 权限限制，只有超管才可以发布商品
 		if(session('USER_ID') != intval(config('USER_ADMIN')))
 		{
 			$this->error('只有管理员才可以发布商品');
 		}
-
+		// 判断请求类型
 		if($this->request->isPost())
 		{
+			// 获取请求的商品参数
 			$data = $this->request->param();
+			// 文件上传
 			$image = $this->upload();
+			// 基本的非空验证
 			if(!$data['name'] ||!$data['sell_price']|| !$data['stock'])
 			{
 				$this->assign('error_tips' , '字段不能为空');
@@ -92,6 +103,7 @@ class Index extends Controller
 			}
 			else
 			{
+				// 写入数据到数据库
 				$data['image'] = $image;
 				$data['status'] = 1;
 				$data['create_time'] = time();
@@ -103,7 +115,6 @@ class Index extends Controller
 				}
 			}
 		}
-
 		return $this->fetch();
 	}
 
