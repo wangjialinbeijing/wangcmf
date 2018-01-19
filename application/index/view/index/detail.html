@@ -56,15 +56,17 @@
 {block name="script"}
 <script>
     $(function(){
-
+        // 显示遮罩层
         function showModal(text , url = '')
         {
+            // 判断是否有文本
             if(text)
             {
                 $('.showInfoText').html(text);
                 $('#showInfo').modal('toggle');
                 if(url != '')
                 {
+                    // 显示弹出层
                     $('#showInfo').on('hidden.bs.modal', function (e) {
                         window.location.href = url;
                     });
@@ -75,25 +77,33 @@
         //马上抢购
         $('#buynow').click(function(){
             var self = $(this);
+            // 设置抢购按钮无法点击
             self.addClass('disabled');
             var user_id = "{:session('USER_ID')}";
+            // 判断用户是否已经等了
             if(!user_id)
             {
+                // 提示未登录
                 showModal('登录后才可以购买',"{:url('User/login')}");
                 return false;
             }
+            // 获取商品id
             var goods_id = "{$info.id}";
             $.post("{:url('Task/publish')}" , {user_id:user_id , goods_id:goods_id, time:new Date().getTime()} , function(msg){
                 if(msg.code == 1)
                 {
+                    // 成功提示语
                     var success_text = '<p>' + msg.msg + '</p><p>正在获取订单状态...</p><p>点击确认【确认】按钮，查看订单列表</p>';
+                    // 获取成功跳转的订单地址
                     var success_url = "{:url('Index/order_list')}";
+                    // 显示状态提示
                     showModal(success_text ,success_url);
                     setInterval(function(){
                         $.post("{:url('Task/getOrderStatus')}" , {user_id:user_id , goods_id:goods_id, time:new Date().getTime()} , function(data){
                             $('.showInfoText').html('<p>'+ data.msg + '</p>');
                             if(data.code == 1)
                             {
+                                // 1秒后跳转到订单列表
                                 setTimeout(function(){
                                     window.location.href = "{:url('Index/order_list')}";
                                 },1000);
@@ -103,10 +113,12 @@
                 }
                 else
                 {
+                    // 提示错误信息
                     var error_text = msg.msg;
                     showModal(error_text);
                     return false;
                 }
+                // 按钮可以操作
                 self.removeClass('disabled');
             })
         })

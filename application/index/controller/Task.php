@@ -8,13 +8,13 @@ use think\Db;
  */
 class Task extends Controller
 {
-
+	// Redis连接信息，可以放到配置config()中
 	private $redis_host = '127.0.0.1';
 	private $redis_port = 6379;
+	// 频道（task）名称
 	private $task_name = 'task_queue';
-
 	/**
-	 * 发布Redis订阅
+	 * 发布商品抢购信息
 	 */
 	public function publish()
 	{
@@ -27,7 +27,6 @@ class Task extends Controller
 			{
 				$this->error('用户id或者商品id参数错误');
 			}
-
 			// 或者直接在数据库中查询是否已经下单支付
 			$redis = new \Redis();
 			$redis->connect($this->redis_host , $this->redis_port);
@@ -36,19 +35,17 @@ class Task extends Controller
 			{
 				$this->error('商品已经购买过');
 			}
-			//Todo:: 再进行一次数据库order表的查询,潜在降低性能
-			// 把：goods_id_user_id写入redis哈希列表中
+			// 把：用户抢购商品信息（goods_id_user_id）写入redis哈希列表中
 			$insert = $redis->hSet('goods_'.$goods_id , $goods_id.'_'.$user_id , 0);
-			if(!$insert)
+			if($insert === false)
 			{
 				$this->error('系统错误，请稍后再试！');
 			}
-			// 发布订阅消息
+			// 构建发布订阅消息数据
 			$task = [
 				'user_id' => $user_id,
 				'goods_id' => $goods_id
 			];
-
 			// 发布定义消息（序列化）
 			$publish = $redis->publish($this->task_name , serialize($task));
 			if(!$publish)
@@ -67,12 +64,14 @@ class Task extends Controller
 	{
 		if($this->request->isAjax())
 		{
-			$user_id =  $this->request->param('user_id');
+			// 获取基本查询信息
+			$user_id =  session('USER_ID');
 			$goods_id = $this->request->param('goods_id');
 			if(!$user_id || !$goods_id)
 			{
 				$this->error('用户id或商品id错误！');
 			}
+			// 构造查询条件
 			$map = [
 				'user_id' => $user_id,
 				'goods_id' => $goods_id,

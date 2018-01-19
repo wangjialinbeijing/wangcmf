@@ -11,7 +11,9 @@ $redis->connect('127.0.0.1',6379);
 $redis->subscribe(['task_queue'], function($redis,$chan,$msg){
 	switch ($chan) {
 		case 'task_queue':
+			// 反序列化消息数据
 			$task = unserialize($msg);
+			// 参数判断
 			if(!$task['user_id'] || !$task['goods_id'])
 			{
 				echo "参数错误\r\n";
