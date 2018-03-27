@@ -94,7 +94,7 @@ class Task extends Controller
 			{
 				$this->error('很遗憾，商品已经售完！');
 			}
-			$this->success('抢购成功，订单已经创建，请点击确认按钮查看订单！');
+			$this->success('抢购成功，订单已经创建，请点击确定按钮查看订单！');
 		}
 		$this->error('参数错误！');
 	}
